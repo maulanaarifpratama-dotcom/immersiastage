@@ -32,6 +32,12 @@ const slides = [
     title: "Edu Farmers International",
     subtitle: "SROI Monitoring and M&E Framework Development",
   },
+  {
+    bg: "/assets/photos/seahum1.webp",
+    label: "FEATURED ENGAGEMENT",
+    title: "SEAHUM",
+    subtitle: "MEAL Capacity Building for Southeast Asian CSOs",
+  },
 ];
 
 const logos = Array.from({ length: 26 }, (_, i) => i + 1);
@@ -207,6 +213,116 @@ export default function HomePage() {
         </div>
         <div id="count">1 / {slides.length}</div>
       </header>
+
+      <section className="white">
+        <div className="wrap split">
+          <div>
+            <small>WHO WE ARE</small>
+            <h2>Closing the gap between analysis and action.</h2>
+            <p>
+              Immersia operates at the intersection of research, design, and
+              organizational development.
+            </p>
+          </div>
+          <img loading="lazy" src="/assets/photos/practice1.webp" alt="" />
+        </div>
+      </section>
+
+      <section className="why-matters">
+        <div className="wrap">
+          <div className="why-head">
+            <div>
+              <small>WHY IT MATTERS</small>
+              <h2>Most organizations know what they want to achieve.</h2>
+              <p className="why-subtitle">
+                Few have the systems to prove it, or sustain it.
+              </p>
+            </div>
+            <img
+              loading="lazy"
+              src="/assets/photos/general27.webp"
+              alt="Immersia practice documentation"
+            />
+          </div>
+          <div className="why-grid">
+            <article>
+              <span>01</span>
+              <h3>Programs designed without evidence</h3>
+              <p>
+                Interventions built on assumptions rather than baseline
+                realities lead to misaligned efforts &amp; resources spent on
+                the wrong problems.
+              </p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Impact measured but not acted on</h3>
+              <p>
+                Evaluation reports produced on schedule but rarely translated
+                into decisions, learning, or real adjustments to program
+                direction.
+              </p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Capacity that does not transfer</h3>
+              <p>
+                Training delivered without embedding into day-to-day practice
+                leaves organizations permanently dependent on external support.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="navy">
+        <div className="wrap">
+          <small>WHAT WE DO</small>
+          <h2>Three domains. One connected impact system.</h2>
+          <div className="three">
+            <article className="service">
+              <img
+                loading="lazy"
+                src="/assets/photos/organization.webp"
+                alt=""
+              />
+              <div>
+                <small>For Organization</small>
+                <h3>Integrated Impact Advisory</h3>
+                <p>
+                  Impact architecture, M&E systems, implementation, and grant
+                  support.
+                </p>
+                <Link to="integrated-advisory.html">
+                  Explore Service &rarr;
+                </Link>
+              </div>
+            </article>
+            <article className="service">
+              <img loading="lazy" src="/assets/photos/human2.webp" alt="" />
+              <div>
+                <small>For Program/Project</small>
+                <h3>Modular Impact Services</h3>
+                <p>
+                  Baseline research, design, evaluation, and impact assessment.
+                </p>
+                <Link to="modular-services.html">Explore Service &rarr;</Link>
+              </div>
+            </article>
+            <article className="service">
+              <img loading="lazy" src="/assets/photos/general27.webp" alt="" />
+              <div>
+                <small>For People</small>
+                <h3>Impact Capacity Building</h3>
+                <p>
+                  Practical capability through Immersia Impact Lab.
+                </p>
+                <Link to="impact-lab.html">Explore Service &rarr;</Link>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
 
       <section className="white">
         <div className="wrap">
