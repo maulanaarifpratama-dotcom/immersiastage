@@ -1,0 +1,7 @@
+dist
+node_modules
+*.lock
+public
+qa
+README.md
+CHANGELOG.md
