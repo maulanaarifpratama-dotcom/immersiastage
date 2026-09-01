@@ -31,13 +31,13 @@ const team = [
 export default function TeamPage() {
   return (
     <>
-      <PageHero label="OUR TEAM" title="The people behind the practice." />
+      <PageHero label="Our team" title="The people behind the practice." />
       <section className="team">
         <div className="wrap">
           {team.map((m) => (
             <article key={m.name} className="profile">
               <div className="portrait">
-                <img loading="lazy" src={m.img} alt={m.name} />
+                <img loading="lazy" src={m.img} alt={`Portrait of ${m.name}`} />
               </div>
               <div>
                 <small>{m.role}</small>

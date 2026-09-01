@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import PageHero from "../components/sections/PageHero";
 import ExecCta from "../components/sections/ExecCta";
+import Icon from "../components/Icon";
 
 const products = [
   { title: "Baseline Research Study" },
@@ -12,13 +13,13 @@ const products = [
 const engagements = [
   {
     img: "/assets/photos/ycab2.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "YCAB Foundation",
     desc: "ANDAL Baseline and Feasibility Study",
   },
   {
     img: "/assets/photos/coming.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "Atome and Bisa Baik Bersama",
     desc: "Atome Untuk Negeri: CSR Program Design and Implementation Advisory",
     em: "Coming Soon",
@@ -26,7 +27,7 @@ const engagements = [
   },
   {
     img: "/assets/photos/coming.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "PLAN International",
     desc: "CS5 Annual Survey: Community Scorecard",
     em: "Coming Soon",
@@ -34,20 +35,20 @@ const engagements = [
   },
   {
     img: "/assets/photos/nfdmc-road-safety.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "NFDMC and Save the Children Korea",
     desc: "Road Safety Program Monitoring: Phase 3",
   },
   {
     img: "/assets/photos/wvi.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "World Vision Indonesia",
     desc: "Multiple Program Evaluations",
     em: "Founding Team Experience",
   },
   {
     img: "/assets/photos/bri.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "PT Bank Rakyat Indonesia",
     desc: "Desa Brilian Impact Assessment",
   },
@@ -56,7 +57,7 @@ const engagements = [
 export default function ModularServicesPage() {
   return (
     <>
-      <PageHero label="FOR PROGRAM-PROJECT" title="Modular Impact Services" />
+      <PageHero label="For program / project" title="Modular Impact Services" />
       <section className="white">
         <div className="wrap">
           <img
@@ -69,7 +70,7 @@ export default function ModularServicesPage() {
       </section>
       <section>
         <div className="wrap">
-          <small>WHAT WE DELIVER</small>
+          <small>What we deliver</small>
           <h2>Practical outputs designed for institutional use.</h2>
           <div className="three products">
             {products.map((p) => (
@@ -86,7 +87,7 @@ export default function ModularServicesPage() {
       </section>
       <section className="white">
         <div className="wrap">
-          <small>SELECTED CLIENT ENGAGEMENTS</small>
+          <small>Selected client engagements</small>
           <h2>Representative experience.</h2>
           <div className="three">
             {engagements.map((e) => (
@@ -97,7 +98,13 @@ export default function ModularServicesPage() {
                   <h3>{e.name}</h3>
                   <p>{e.desc}</p>
                   {e.em && <em>{e.em}</em>}
-                  <Link to="project-records.html">View Record &rarr;</Link>
+                  <Link to="/project-records.html">
+                    <span>
+                      View Record
+                      <span className="visually-hidden"> for {e.name}</span>
+                    </span>
+                    <Icon name="arrowRight" size={17} />
+                  </Link>
                 </div>
               </article>
             ))}

@@ -3,11 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Baseline head. Per-route title, description, canonical, OG and
+         JSON-LD are written at runtime by src/lib/meta.js. -->
     <title>Immersia — Strategic Impact Advisory</title>
     <meta
       name="description"
       content="Immersia helps institutions design, measure, and strengthen impact programs with evidence, systems, and capability connected to practical decisions."
     />
+    <link rel="canonical" href="https://immersia.id/" />
+    <meta name="theme-color" content="#31444d" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/inter-latin.woff2"
+      crossorigin
+    />
+    <link rel="preload" as="image" href="/assets/photos/ycab1.webp" />
+
     <meta property="og:site_name" content="Immersia" />
     <meta property="og:title" content="Immersia — Strategic Impact Advisory" />
     <meta
@@ -15,27 +32,42 @@
       content="Evidence, systems, and capability connected to practical decisions. We help institutions design, measure, and strengthen programs with greater precision."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://immersia.id" />
-    <meta
-      property="og:image"
-      content="https://immersia.id/og-image.jpg"
-    />
+    <meta property="og:url" content="https://immersia.id/" />
+    <meta property="og:image" content="https://immersia.id/og-image.jpg" />
     <meta property="og:image:width" content="1280" />
     <meta property="og:image:height" content="672" />
+    <meta
+      property="og:image:alt"
+      content="Immersia — strategic impact advisory"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Immersia — Strategic Impact Advisory" />
     <meta
       name="twitter:description"
       content="Evidence, systems, and capability connected to practical decisions. Strategic impact advisory for institutions."
     />
-    <meta
-      name="twitter:image"
-      content="https://immersia.id/og-image.jpg"
-    />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="twitter:image" content="https://immersia.id/og-image.jpg" />
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div
+        style="
+          max-width: 40rem;
+          margin: 6rem auto;
+          padding: 0 1.25rem;
+          font-family: system-ui, sans-serif;
+          line-height: 1.6;
+        "
+      >
+        <h1>Immersia</h1>
+        <p>
+          This site needs JavaScript to render. Reach the team directly at
+          <a href="mailto:info@immersia.id">info@immersia.id</a> or
+          <a href="https://wa.me/6281646035257">+62 816-4603-5257</a>.
+        </p>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -40,7 +40,7 @@ export default function ArticlePage({ article }) {
         <div className="articlecta">
           <h2>{article.ctaTitle}</h2>
           <p>{article.ctaDesc}</p>
-          <Link className="btn gold" to="request-proposal.html">
+          <Link className="btn gold" to="/request-proposal.html">
             {article.ctaBtn}
           </Link>
         </div>

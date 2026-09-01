@@ -1,40 +1,42 @@
 import { Link } from "react-router-dom";
 import ExecCta from "../components/sections/ExecCta";
+import HeroCarousel from "../components/HeroCarousel";
+import Icon from "../components/Icon";
 
 const slides = [
   {
     bg: "/assets/photos/ycab1.webp",
-    label: "FEATURED ENGAGEMENT",
+    label: "Featured engagement",
     title: "YCAB Foundation",
     subtitle: "ANDAL Baseline and Feasibility Study",
   },
   {
     bg: "/assets/photos/baznas.webp",
-    label: "FEATURED ENGAGEMENT",
+    label: "Featured engagement",
     title: "BAZNAS RI",
     subtitle: "4 Programs Impact Study Using SROI and OECD-DAC",
   },
   {
     bg: "/assets/photos/human1.webp",
-    label: "FEATURED ENGAGEMENT",
+    label: "Featured engagement",
     title: "Human Initiative and Pertamina EP",
     subtitle: "Community Empowerment Impact Study",
   },
   {
     bg: "/assets/photos/ybm2.webp",
-    label: "FEATURED ENGAGEMENT",
+    label: "Featured engagement",
     title: "YBM BRILiaN",
     subtitle: "Impact Study Series Using SROI, MSC, and CSI",
   },
   {
     bg: "/assets/photos/edufarmers.webp",
-    label: "FEATURED ENGAGEMENT",
+    label: "Featured engagement",
     title: "Edu Farmers International",
     subtitle: "SROI Monitoring and M&E Framework Development",
   },
   {
     bg: "/assets/photos/seahum1.webp",
-    label: "FEATURED ENGAGEMENT",
+    label: "Featured engagement",
     title: "SEAHUM",
     subtitle: "MEAL Capacity Building for Southeast Asian CSOs",
   },
@@ -45,37 +47,37 @@ const logos = Array.from({ length: 26 }, (_, i) => i + 1);
 const records = [
   {
     img: "/assets/photos/edufarmers.webp",
-    domain: "organization",
+    domain: "Organization",
     name: "Edu Farmers International",
     desc: "SROI Monitoring and M&E Framework Development",
   },
   {
     img: "/assets/photos/ycab2.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "YCAB Foundation",
     desc: "ANDAL Baseline and Feasibility Study",
   },
   {
     img: "/assets/photos/baznas.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "BAZNAS RI",
     desc: "4 Programs Impact Study",
   },
   {
     img: "/assets/photos/human2.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "Human Initiative and Pertamina EP",
     desc: "Community Empowerment Impact Study",
   },
   {
     img: "/assets/photos/ybm1.webp",
-    domain: "program-project",
+    domain: "Program / Project",
     name: "YBM BRILiaN",
     desc: "Impact Study Series",
   },
   {
     img: "/assets/photos/seahum2.webp",
-    domain: "people",
+    domain: "People",
     name: "SEAHUM",
     desc: "MEAL Capacity Building",
   },
@@ -84,25 +86,25 @@ const records = [
 const insights = [
   {
     img: "/assets/photos/practice6.webp",
-    label: "INSIGHT 001",
+    label: "Insight 001",
     title: "Why Baseline and Feasibility Studies Matter Before Program Design",
     desc: "A baseline and feasibility study provides structured evidence about current conditions and tests whether a proposed intervention is suitable for its intended context.",
-    href: "article-baseline-feasibility-study-program-design.html",
+    href: "/article-baseline-feasibility-study-program-design.html",
   },
   {
     img: "/assets/photos/dispora.webp",
-    label: "INSIGHT 002",
+    label: "Insight 002",
     title: "How to Build an M&E System That Organizations Can Actually Use",
     desc: "A practical M&E system connects program logic, indicators, people, processes, technology, reporting, reflection, and management decisions.",
-    href: "article-build-practical-monitoring-evaluation-system.html",
+    href: "/article-build-practical-monitoring-evaluation-system.html",
   },
   {
     img: "/assets/photos/practice5.webp",
-    label: "INSIGHT 003",
+    label: "Insight 003",
     title:
       "SROI, MSC, CSI, and OECD-DAC: How to Choose the Right Impact Assessment Method",
     desc: "The right impact assessment method depends on the evaluation question, intended users, program maturity, data readiness, available resources, and the decisions the assessment must inform.",
-    href: "article-choose-impact-assessment-method.html",
+    href: "/article-choose-impact-assessment-method.html",
   },
 ];
 
@@ -111,19 +113,19 @@ const pubs = [
     img: "/assets/publications/1.webp",
     label: "SROI Study | 2025",
     title: "Social Return on Investment Study: SIMBA KUAT",
-    href: "publication-1.html",
+    href: "/publication-1.html",
   },
   {
     img: "/assets/publications/2.webp",
     label: "SROI Study | 2025",
     title: "Social Return on Investment Study: PERMATA",
-    href: "publication-2.html",
+    href: "/publication-2.html",
   },
   {
     img: "/assets/publications/3.webp",
     label: "Impact Study | 2025",
     title: "Family Strengthening Program Impact Study",
-    href: "publication-3.html",
+    href: "/publication-3.html",
   },
 ];
 
@@ -156,7 +158,7 @@ const team = [
 
 const faqs = [
   {
-    q: "What is the difference between Immersia&rsquo;s three service domains?",
+    q: "What is the difference between Immersia’s three service domains?",
     a: "Integrated Impact Advisory works at the organizational level, Modular Impact Services addresses specific programs and projects, and Impact Capacity Building strengthens the capabilities of people and teams.",
   },
   {
@@ -172,59 +174,25 @@ const faqs = [
 export default function HomePage() {
   return (
     <>
-      <header className="hero">
-        <div className="track" id="track">
-          {slides.map((s) => (
-            <article
-              key={s.title}
-              className="slide"
-              style={{ "--bg": `url(${s.bg})` }}
-            >
-              <div className="slidecopy">
-                <small>{s.label}</small>
-                <h1>{s.title}</h1>
-                <h2>{s.subtitle}</h2>
-                <p>
-                  Evidence, systems, and capability connected to practical
-                  decisions.
-                </p>
-                <div className="actions">
-                  <Link className="btn gold" to="project-records.html">
-                    View Project
-                  </Link>
-                  <Link className="btn ghost" to="services.html">
-                    Explore Service
-                  </Link>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-        <button id="prev" aria-label="Previous slide">
-          &#8249;
-        </button>
-        <button id="next" aria-label="Next slide">
-          &#8250;
-        </button>
-        <div id="dots">
-          {slides.map((_, i) => (
-            <button key={i} aria-label={`Go to slide ${i + 1}`} />
-          ))}
-        </div>
-        <div id="count">1 / {slides.length}</div>
-      </header>
+      <HeroCarousel slides={slides} />
 
       <section className="white">
         <div className="wrap split">
           <div>
-            <small>WHO WE ARE</small>
+            <small>Who we are</small>
             <h2>Closing the gap between analysis and action.</h2>
-            <p>
+            <p className="lead">
               Immersia operates at the intersection of research, design, and
               organizational development.
             </p>
           </div>
-          <img loading="lazy" src="/assets/photos/practice1.webp" alt="" />
+          <img
+            loading="lazy"
+            src="/assets/photos/practice1.webp"
+            alt="Immersia facilitators working with a partner organization"
+            width="560"
+            height="380"
+          />
         </div>
       </section>
 
@@ -232,7 +200,7 @@ export default function HomePage() {
         <div className="wrap">
           <div className="why-head">
             <div>
-              <small>WHY IT MATTERS</small>
+              <small>Why it matters</small>
               <h2>Most organizations know what they want to achieve.</h2>
               <p className="why-subtitle">
                 Few have the systems to prove it, or sustain it.
@@ -241,7 +209,9 @@ export default function HomePage() {
             <img
               loading="lazy"
               src="/assets/photos/general27.webp"
-              alt="Immersia practice documentation"
+              alt="Participants in an Immersia capacity-building session"
+              width="440"
+              height="300"
             />
           </div>
           <div className="why-grid">
@@ -250,8 +220,8 @@ export default function HomePage() {
               <h3>Programs designed without evidence</h3>
               <p>
                 Interventions built on assumptions rather than baseline
-                realities lead to misaligned efforts &amp; resources spent on
-                the wrong problems.
+                realities lead to misaligned efforts and resources spent on the
+                wrong problems.
               </p>
             </article>
             <article>
@@ -277,7 +247,7 @@ export default function HomePage() {
 
       <section className="navy">
         <div className="wrap">
-          <small>WHAT WE DO</small>
+          <small>What we do</small>
           <h2>Three domains. One connected impact system.</h2>
           <div className="three">
             <article className="service">
@@ -285,39 +255,58 @@ export default function HomePage() {
                 loading="lazy"
                 src="/assets/photos/organization.webp"
                 alt=""
+                width="360"
+                height="190"
               />
               <div>
-                <small>For Organization</small>
+                <small>For organization</small>
                 <h3>Integrated Impact Advisory</h3>
                 <p>
-                  Impact architecture, M&E systems, implementation, and grant
-                  support.
+                  Impact architecture, M&amp;E systems, implementation, and
+                  grant support.
                 </p>
-                <Link to="integrated-advisory.html">
-                  Explore Service &rarr;
+                <Link to="/integrated-advisory.html">
+                  Explore Service
+                  <Icon name="arrowRight" size={17} />
                 </Link>
               </div>
             </article>
             <article className="service">
-              <img loading="lazy" src="/assets/photos/human2.webp" alt="" />
+              <img
+                loading="lazy"
+                src="/assets/photos/human2.webp"
+                alt=""
+                width="360"
+                height="190"
+              />
               <div>
-                <small>For Program/Project</small>
+                <small>For program / project</small>
                 <h3>Modular Impact Services</h3>
                 <p>
                   Baseline research, design, evaluation, and impact assessment.
                 </p>
-                <Link to="modular-services.html">Explore Service &rarr;</Link>
+                <Link to="/modular-services.html">
+                  Explore Service
+                  <Icon name="arrowRight" size={17} />
+                </Link>
               </div>
             </article>
             <article className="service">
-              <img loading="lazy" src="/assets/photos/general27.webp" alt="" />
+              <img
+                loading="lazy"
+                src="/assets/photos/general27.webp"
+                alt=""
+                width="360"
+                height="190"
+              />
               <div>
-                <small>For People</small>
+                <small>For people</small>
                 <h3>Impact Capacity Building</h3>
-                <p>
-                  Practical capability through Immersia Impact Lab.
-                </p>
-                <Link to="impact-lab.html">Explore Service &rarr;</Link>
+                <p>Practical capability through Immersia Impact Lab.</p>
+                <Link to="/impact-lab.html">
+                  Explore Service
+                  <Icon name="arrowRight" size={17} />
+                </Link>
               </div>
             </article>
           </div>
@@ -328,10 +317,16 @@ export default function HomePage() {
         <div className="wrap">
           <div className="approachhead">
             <div>
-              <small>OUR APPROACH</small>
+              <small>Our approach</small>
               <h2>Grounded insight. Actionable design. Lasting ownership.</h2>
             </div>
-            <img loading="lazy" src="/assets/photos/general26.webp" alt="" />
+            <img
+              loading="lazy"
+              src="/assets/photos/general26.webp"
+              alt="Immersia team facilitating a validation workshop"
+              width="420"
+              height="230"
+            />
           </div>
           <div className="four approach">
             <article>
@@ -379,25 +374,21 @@ export default function HomePage() {
               <strong>3</strong>Domains of Engagement
             </div>
           </div>
-          <small>TRUSTED ACROSS SECTORS</small>
-          <div className="logowin">
-            <div className="logotrack">
+          <small>Trusted across sectors</small>
+          <div
+            className="logowin"
+            role="img"
+            aria-label="Logos of 26 client and partner institutions Immersia has worked with"
+          >
+            <div className="logotrack" aria-hidden="true">
               {logos.map((n) => (
                 <div key={n}>
-                  <img
-                    loading="lazy"
-                    src={`/assets/logos/${n}.webp`}
-                    alt="Client logo"
-                  />
+                  <img loading="lazy" src={`/assets/logos/${n}.webp`} alt="" />
                 </div>
               ))}
               {logos.map((n) => (
                 <div key={`dup-${n}`}>
-                  <img
-                    loading="lazy"
-                    src={`/assets/logos/${n}.webp`}
-                    alt="Client logo"
-                  />
+                  <img loading="lazy" src={`/assets/logos/${n}.webp`} alt="" />
                 </div>
               ))}
             </div>
@@ -407,17 +398,29 @@ export default function HomePage() {
 
       <section className="white">
         <div className="wrap">
-          <small>SELECTED PROJECT RECORDS</small>
+          <small>Selected project records</small>
           <h2>Representative work across every domain.</h2>
           <div className="three">
             {records.map((r) => (
               <article key={r.name} className="record">
-                <img loading="lazy" src={r.img} alt="" />
+                <img
+                  loading="lazy"
+                  src={r.img}
+                  alt=""
+                  width="360"
+                  height="190"
+                />
                 <div>
                   <small>{r.domain}</small>
                   <h3>{r.name}</h3>
                   <p>{r.desc}</p>
-                  <Link to="project-records.html">View Record &rarr;</Link>
+                  <Link to="/project-records.html">
+                    <span>
+                      View Record
+                      <span className="visually-hidden"> for {r.name}</span>
+                    </span>
+                    <Icon name="arrowRight" size={17} />
+                  </Link>
                 </div>
               </article>
             ))}
@@ -427,30 +430,41 @@ export default function HomePage() {
 
       <section>
         <div className="wrap">
-          <small>NEWS &amp; ARTICLES</small>
+          <small>News &amp; articles</small>
           <h2>Learning from evidence and practice.</h2>
           <div className="three">
             {insights.map((a) => (
               <Link key={a.href} className="article" to={a.href}>
-                <img loading="lazy" src={a.img} alt="" />
+                <img
+                  loading="lazy"
+                  src={a.img}
+                  alt=""
+                  width="360"
+                  height="190"
+                />
                 <div>
                   <small>{a.label}</small>
                   <h3>{a.title}</h3>
                   <p>{a.desc}</p>
-                  <b>Read Article &rarr;</b>
+                  <span className="more">
+                    Read Article
+                    <Icon name="arrowRight" size={17} />
+                  </span>
                 </div>
               </Link>
             ))}
           </div>
-          <Link className="btn" to="news.html">
-            View All Articles
-          </Link>
+          <p>
+            <Link className="btn" to="/news.html">
+              View All Articles
+            </Link>
+          </p>
         </div>
       </section>
 
       <section className="white">
         <div className="wrap">
-          <small>SELECTED PUBLICATIONS</small>
+          <small>Selected publications</small>
           <h2>Representative reports and knowledge products.</h2>
           <div className="three">
             {pubs.map((p) => (
@@ -463,26 +477,38 @@ export default function HomePage() {
                     Representative publication from Immersia&rsquo;s advisory
                     portfolio.
                   </p>
-                  <Link to={p.href}>View Publication &rarr;</Link>
+                  <Link to={p.href}>
+                    <span>
+                      View Publication
+                      <span className="visually-hidden"> {p.title}</span>
+                    </span>
+                    <Icon name="arrowRight" size={17} />
+                  </Link>
                 </div>
               </article>
             ))}
           </div>
-          <Link className="btn" to="publications.html">
-            Explore Publications
-          </Link>
+          <p>
+            <Link className="btn" to="/publications.html">
+              Explore Publications
+            </Link>
+          </p>
         </div>
       </section>
 
       <section className="team">
         <div className="wrap">
-          <small>OUR TEAM</small>
+          <small>Our team</small>
           <h2>The people behind the practice.</h2>
           <div className="four">
             {team.map((m) => (
-              <Link key={m.name} className="person" to="team.html">
+              <Link key={m.name} className="person" to="/team.html">
                 <div className="portrait">
-                  <img loading="lazy" src={m.img} alt={m.name} />
+                  <img
+                    loading="lazy"
+                    src={m.img}
+                    alt={`Portrait of ${m.name}`}
+                  />
                 </div>
                 <div>
                   <h3>{m.name}</h3>
@@ -500,15 +526,15 @@ export default function HomePage() {
           <div>
             <small>FAQ</small>
             <h2>Questions before starting an engagement?</h2>
-            <Link className="btn" to="faq.html">
+            <Link className="btn" to="/faq.html">
               View All FAQs
             </Link>
           </div>
           <div>
-            {faqs.map((f, i) => (
-              <details key={i}>
-                <summary dangerouslySetInnerHTML={{ __html: f.q }} />
-                <p dangerouslySetInnerHTML={{ __html: f.a }} />
+            {faqs.map((f) => (
+              <details key={f.q}>
+                <summary>{f.q}</summary>
+                <p>{f.a}</p>
               </details>
             ))}
           </div>

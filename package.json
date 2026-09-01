@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/generate-sitemap.mjs && vite build",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{jsx,js,css}\" index.html vite.config.js",
     "format:check": "prettier --check \"src/**/*.{jsx,js,css}\" index.html vite.config.js",
@@ -13,7 +13,8 @@
     "lint:fix": "eslint src/ --fix",
     "optimize:images": "node scripts/optimize-images.mjs",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "sitemap": "node scripts/generate-sitemap.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.0.3",

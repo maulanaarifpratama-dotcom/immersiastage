@@ -12,6 +12,7 @@ import FaqPage from "./FaqPage";
 import RequestProposalPage from "./RequestProposalPage";
 import ArticlePage from "./ArticlePage";
 import PublicationPage from "./PublicationPage";
+import NotFoundPage from "./NotFoundPage";
 import { articles } from "../data/articles";
 import { publications } from "../data/publications";
 
@@ -31,29 +32,28 @@ export const pageComponents = {
 };
 
 export function getPageComponent(key) {
-  const fallback = "index.html";
-
-  // Check if it's a known page
   if (pageComponents[key]) {
-    return { Component: pageComponents[key], props: {} };
+    return { Component: pageComponents[key], props: {}, found: true };
   }
 
-  // Check if it's an article
   if (articles[key]) {
     return {
       Component: ArticlePage,
       props: { article: articles[key] },
+      found: true,
     };
   }
 
-  // Check if it's a publication
   if (publications[key]) {
     return {
       Component: PublicationPage,
       props: publications[key],
+      found: true,
     };
   }
 
-  // Fallback to home
-  return { Component: pageComponents[fallback], props: {} };
+  // Previously this fell back to the homepage, so every mistyped or retired
+  // URL answered 200 with the front page. That is a soft 404: it hides broken
+  // links from the visitor and gets the homepage indexed under dozens of URLs.
+  return { Component: NotFoundPage, props: {}, found: false };
 }

@@ -7,6 +7,9 @@ import "./styles/site.css";
 export default function App() {
   return (
     <BrowserRouter>
+      <a className="skiplink" href="#main">
+        Skip to content
+      </a>
       <Navigation />
       <Routes>
         <Route path="*" element={<ContentPage />} />

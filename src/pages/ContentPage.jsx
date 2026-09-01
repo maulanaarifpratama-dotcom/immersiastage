@@ -1,28 +1,39 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { useCarousel } from "../hooks/useCarousel";
-import { useProjectFilter } from "../hooks/useProjectFilter";
+import { useDocumentMeta, resolveMeta } from "../lib/meta";
 import { getPageComponent } from "./index";
 
 export default function ContentPage() {
-  let { pathname } = useLocation();
-  let k = pathname === "/" ? "index.html" : pathname.split("/").pop();
+  const { pathname } = useLocation();
+  const key = pathname === "/" ? "index.html" : pathname.split("/").pop();
+  const mainRef = useRef(null);
+  const first = useRef(true);
 
-  let { Component, props } = getPageComponent(k);
+  const { Component, props } = getPageComponent(key);
+
+  useDocumentMeta(key);
 
   useEffect(() => {
-    scrollTo(0, 0);
-    let m = document.querySelector("#menu");
-    let l = document.querySelector("#links");
-    if (m) m.onclick = () => l?.classList.toggle("open");
-  }, [k]);
+    window.scrollTo(0, 0);
 
-  useCarousel(k);
-  useProjectFilter(k);
+    // A client-side route change does not move focus on its own, so keyboard
+    // and screen reader users stayed parked at the end of the nav. Send focus
+    // to the top of the new document instead.
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    mainRef.current?.focus({ preventScroll: true });
+  }, [key]);
 
   return (
-    <main>
-      <Component {...props} />
-    </main>
+    <>
+      <main id="main" ref={mainRef} tabIndex={-1}>
+        <Component {...props} />
+      </main>
+      <p className="visually-hidden" aria-live="polite" aria-atomic="true">
+        {resolveMeta(key).title}
+      </p>
+    </>
   );
 }

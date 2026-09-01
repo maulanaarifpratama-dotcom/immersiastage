@@ -6,11 +6,11 @@ const faqGroups = [
     title: "Services and Methodology",
     items: [
       {
-        q: "What is the difference between Immersia&rsquo;s three service domains?",
+        q: "What is the difference between Immersia’s three service domains?",
         a: "Integrated Impact Advisory works at the organizational level, Modular Impact Services addresses specific programs and projects, and Impact Capacity Building strengthens the capabilities of people and teams.",
       },
       {
-        q: "Can Immersia&rsquo;s services be engaged as standalone assignments?",
+        q: "Can Immersia’s services be engaged as standalone assignments?",
         a: "Yes. Baseline research, program design, evaluation, impact assessment, advisory support, and capacity building can be engaged as standalone assignments or combined into a connected sequence.",
       },
       {
@@ -65,8 +65,8 @@ export default function FaqPage() {
             <h2>{g.title}</h2>
             {g.items.map((item, i) => (
               <details key={i}>
-                <summary dangerouslySetInnerHTML={{ __html: item.q }} />
-                <p dangerouslySetInnerHTML={{ __html: item.a }} />
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
               </details>
             ))}
           </section>

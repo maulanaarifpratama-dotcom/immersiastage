@@ -5,12 +5,16 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        label="ABOUT IMMERSIA"
+        label="About Immersia"
         title="Evidence that moves into decisions, systems, and action."
       />
       <section className="white">
         <div className="wrap split">
-          <img loading="lazy" src="/assets/photos/practice1.webp" alt="" />
+          <img
+            loading="lazy"
+            src="/assets/photos/practice1.webp"
+            alt="Immersia facilitators working with a partner organization"
+          />
           <div>
             <h2>Who We Are</h2>
             <p className="lead">
@@ -37,7 +41,7 @@ export default function AboutPage() {
           <img
             className="about-exists-photo"
             src="/assets/photos/general26.webp"
-            alt=""
+            alt="Immersia team facilitating a validation workshop"
           />
         </div>
       </section>
@@ -90,7 +94,11 @@ export default function AboutPage() {
       </section>
       <section className="white">
         <div className="wrap split">
-          <img loading="lazy" src="/assets/photos/practice5.webp" alt="" />
+          <img
+            loading="lazy"
+            src="/assets/photos/practice5.webp"
+            alt="An Immersia field team conducting participant interviews"
+          />
           <div>
             <h2>How We Work</h2>
             <ol>

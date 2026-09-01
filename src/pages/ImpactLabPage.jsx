@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import PageHero from "../components/sections/PageHero";
 import ExecCta from "../components/sections/ExecCta";
+import Icon from "../components/Icon";
 
 const products = [
   { title: "MEAL for Impact" },
@@ -14,19 +15,19 @@ const products = [
 const engagements = [
   {
     img: "/assets/photos/seahum2.webp",
-    domain: "people",
+    domain: "People",
     name: "SEAHUM",
     desc: "MEAL Capacity Building",
   },
   {
     img: "/assets/photos/practice2.webp",
-    domain: "people",
+    domain: "People",
     name: "Immersia Impact Lab",
     desc: "MEAL for Impact: Batch 01",
   },
   {
     img: "/assets/photos/poroz.webp",
-    domain: "people",
+    domain: "People",
     name: "POROZ",
     desc: "Impact-Driven Zakat Empowerment Learning Program",
   },
@@ -35,7 +36,7 @@ const engagements = [
 export default function ImpactLabPage() {
   return (
     <>
-      <PageHero label="FOR PEOPLE" title="Impact Capacity Building" />
+      <PageHero label="For people" title="Impact Capacity Building" />
       <section className="white">
         <div className="wrap">
           <img
@@ -48,7 +49,7 @@ export default function ImpactLabPage() {
       </section>
       <section>
         <div className="wrap">
-          <small>WHAT WE DELIVER</small>
+          <small>What we deliver</small>
           <h2>Practical outputs designed for institutional use.</h2>
           <div className="three products">
             {products.map((p) => (
@@ -65,7 +66,7 @@ export default function ImpactLabPage() {
       </section>
       <section className="white">
         <div className="wrap">
-          <small>SELECTED CLIENT ENGAGEMENTS</small>
+          <small>Selected client engagements</small>
           <h2>Representative experience.</h2>
           <div className="three">
             {engagements.map((e) => (
@@ -75,7 +76,13 @@ export default function ImpactLabPage() {
                   <small>{e.domain}</small>
                   <h3>{e.name}</h3>
                   <p>{e.desc}</p>
-                  <Link to="project-records.html">View Record &rarr;</Link>
+                  <Link to="/project-records.html">
+                    <span>
+                      View Record
+                      <span className="visually-hidden"> for {e.name}</span>
+                    </span>
+                    <Icon name="arrowRight" size={17} />
+                  </Link>
                 </div>
               </article>
             ))}
