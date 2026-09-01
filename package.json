@@ -16,7 +16,8 @@
     "test:watch": "vitest",
     "dev:astro": "astro dev",
     "build:astro": "astro build",
-    "preview:astro": "astro preview"
+    "preview:astro": "astro preview",
+    "test:artifacts": "astro build && vitest run src/test/astro-output.test.js"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.5",

@@ -16,18 +16,19 @@ import Footer from "../components/Footer.jsx";
 import "../styles/site.css";
 
 interface Props {
-  /** Route key as used by src/lib/meta.js, e.g. "about.html". */
+  /** Route key as used by src/lib/page-meta.js, e.g. "about.html". */
   metaKey: string;
   /**
    * Content-driven pages pass their own metadata instead of looking it up.
-   * Articles and publications now come from collections, so resolveMeta()'s
-   * copy of that data is no longer the source of truth for them.
+   * Articles and publications come from collections, so the fixed-page table
+   * is not the source of truth for them.
    */
   title?: string;
   description?: string;
   image?: string;
   type?: "website" | "article";
   jsonLd?: Record<string, unknown> | null;
+  noindex?: boolean;
 }
 
 const {
@@ -37,11 +38,21 @@ const {
   image: imageOverride,
   type: typeOverride,
   jsonLd = null,
+  noindex: noindexOverride,
 } = Astro.props;
 
 const meta = resolvePageMeta(metaKey);
 const path = metaKey === "index.html" ? "/" : `/${metaKey}`;
 const url = `${SITE_URL}${path}`;
+
+/**
+ * resolvePageMeta() only knows the fixed pages, so it returns the not-found
+ * record for any article or publication slug. Reading `noindex` straight off it
+ * marked all eleven of those pages `noindex` and stripped their canonical —
+ * while the sitemap listed them. A page that supplies its own title is a real
+ * page, whatever the fixed-page table thinks of its key.
+ */
+const noindex = noindexOverride ?? (meta.noindex && !titleOverride);
 
 const baseTitle = titleOverride ?? meta.title;
 const description = descOverride ?? meta.description;
@@ -61,8 +72,8 @@ const fullTitle =
     <meta name="description" content={description} />
     {/* A noindex page gets no canonical: pointing search engines at a URL we
         are simultaneously telling them to ignore is a contradiction. */}
-    {!meta.noindex && <link rel="canonical" href={url} />}
-    <meta name="robots" content={meta.noindex ? "noindex, follow" : "index, follow"} />
+    {!noindex && <link rel="canonical" href={url} />}
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
     <meta name="theme-color" content="#31444d" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
@@ -99,13 +110,9 @@ const fullTitle =
     <a class="skiplink" href="#main">Skip to content</a>
 
     {/*
-      The only hydrated island on these pages. Navigation carries the mobile
-      drawer and the two keyboard-operable submenus, so it needs client JS;
-      client:load rather than client:visible because it sits above the fold and
-      a visitor can reach for the menu before any observer fires.
-
-      Footer below has no directive, so it renders to static HTML at build time
-      and ships nothing.
+      Navigation is an .astro component with a small inline enhancement script,
+      not a framework island. Footer is React with no client:* directive, so it
+      renders to static HTML at build time and ships nothing.
     */}
     <Navigation pathname={path} />
 
