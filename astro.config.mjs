@@ -40,6 +40,12 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
+      // The restored Indonesian archive under /id/insights/ is noindex. A
+      // sitemap that lists a noindex URL sends search engines two contrary
+      // instructions about the same page, which is exactly the contradiction
+      // the phase 4 regression produced in reverse.
+      filter: (page) => !page.includes("/id/insights"),
+
       // @astrojs/sitemap does not read build.format, so it emits
       // https://immersia.id/about while the page it describes is
       // /about.html. Every entry would have pointed at a URL that does not

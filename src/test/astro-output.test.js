@@ -59,6 +59,29 @@ const PUBLICATION_COUNT = 6;
 
 const pages = readdirSync(DIST).filter((f) => f.endsWith(".html"));
 const publicPages = pages.filter((f) => f !== "404.html");
+
+/**
+ * Discovery above is top-level only, which was correct while every page lived
+ * at the site root. The restored Indonesian archive lives under /id/insights/,
+ * so a top-level scan leaves twenty pages unchecked — and they are the pages
+ * with the most unusual metadata rules on the site, the only ones that must be
+ * noindex, carry no canonical, and never reach the sitemap. Walk the tree.
+ */
+const walk = (dir, prefix = "") =>
+  readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
+    const rel = prefix ? `${prefix}/${d.name}` : d.name;
+    if (d.isDirectory())
+      return d.name === "_astro" || d.name === "assets"
+        ? []
+        : walk(path.join(dir, d.name), rel);
+    return d.name.endsWith(".html") ? [rel] : [];
+  });
+
+const allPages = walk(DIST);
+const archivePages = allPages.filter((p) => p.startsWith("id/insights"));
+const archiveArticles = archivePages.filter((p) => p !== "id/insights.html");
+
+const ARCHIVE_COUNT = 19;
 const read = (f) => readFileSync(path.join(DIST, f), "utf8");
 const headOf = (f) => {
   const html = read(f);
@@ -229,6 +252,135 @@ describe("structured data", () => {
   );
 });
 
+/* --------------------------------------------------------------- archive */
+
+/**
+ * The nineteen Indonesian articles restored from the Wayback capture, plus
+ * their index. The whole point of this archive is that it is reachable but
+ * invisible: it honours old URLs without reopening an Indonesian content
+ * stream, so every assertion here is about what it must NOT do.
+ */
+describe("indonesian archive", () => {
+  it("builds all nineteen articles and one index", () => {
+    expect(archiveArticles).toHaveLength(ARCHIVE_COUNT);
+    expect(archivePages).toContain("id/insights.html");
+    expect(archivePages).toHaveLength(ARCHIVE_COUNT + 1);
+  });
+
+  it.each(archivePages)("%s tells crawlers not to index it", (file) => {
+    expect(robots(headOf(file))).toBe("noindex, follow");
+  });
+
+  it.each(archivePages)("%s carries no canonical", (file) => {
+    // A canonical on a noindex page points search engines at a URL we are
+    // simultaneously telling them to ignore.
+    expect(canonical(headOf(file))).toBeNull();
+  });
+
+  it.each(archivePages)("%s declares Indonesian", (file) => {
+    expect(read(file)).toContain('<html lang="id">');
+  });
+
+  it.each(archivePages)("%s has a real title and description", (file) => {
+    const head = headOf(file);
+    expect(decode(title(head)).trim().length).toBeGreaterThan(10);
+    expect(description(head).length).toBeGreaterThanOrEqual(40);
+  });
+
+  it("gives every archive page its own title and description", () => {
+    const heads = archivePages.map(headOf);
+    expect(new Set(heads.map(title)).size).toBe(archivePages.length);
+    expect(new Set(heads.map(description)).size).toBe(archivePages.length);
+  });
+
+  it.each(archiveArticles)("%s has exactly one h1 and skips no level", (file) => {
+    const html = read(file);
+    const levels = [...html.matchAll(/<h([1-6])[\s>]/g)].map((m) => +m[1]);
+    expect(levels.filter((l) => l === 1)).toHaveLength(1);
+    expect(levels[0]).toBe(1);
+    // WordPress emitted no heading elements at all here -- every section title
+    // was bold text -- so the conversion promotes that one level to h2. If it
+    // ever lands on h3 the document skips a level for a screen reader.
+    for (const l of levels.slice(1)) expect(l).toBeLessThanOrEqual(2);
+  });
+
+  it("serves no archived asset from web.archive.org", () => {
+    // The pages were recovered from the archive; they must not depend on it.
+    for (const file of archivePages)
+      expect(read(file)).not.toContain("web.archive.org");
+  });
+
+  it("is not linked from any live page", () => {
+    const linking = publicPages.filter((f) => read(f).includes("/id/insights"));
+    expect(linking).toEqual([]);
+  });
+
+  it("does not leak into the sitemap", () => {
+    expect(read("sitemap-0.xml")).not.toContain("/id/insights");
+  });
+
+  it("is not disallowed in robots.txt", () => {
+    // Blocking the path would stop crawlers reading the noindex they need to
+    // obey, which leaves the old URLs indexed forever.
+    const robotsTxt = read("robots.txt");
+    expect(robotsTxt).not.toMatch(/Disallow:\s*\/id/);
+  });
+
+  it("index links to every article, and nothing else", () => {
+    const html = read("id/insights.html");
+    const linked = new Set(
+      [...html.matchAll(/href="\/id\/insights\/([^"]+)"/g)].map((m) => m[1]),
+    );
+    expect(linked).toEqual(
+      new Set(archiveArticles.map((p) => p.split("/")[2])),
+    );
+  });
+
+  it("index lists articles newest first", () => {
+    const dates = [
+      ...read("id/insights.html").matchAll(
+        /<time datetime="(\d{4}-\d{2}-\d{2})"/g,
+      ),
+    ].map((m) => m[1]);
+    expect(dates).toHaveLength(ARCHIVE_COUNT);
+    expect([...dates].sort().reverse()).toEqual(dates);
+  });
+});
+
+describe("archive redirects", () => {
+  const cfg = JSON.parse(readFileSync(path.resolve("vercel.json"), "utf8"));
+  const redirects = cfg.redirects ?? [];
+
+  it("declares one permanent redirect per restored article", () => {
+    expect(redirects).toHaveLength(ARCHIVE_COUNT);
+    for (const r of redirects) expect(r.statusCode).toBe(301);
+  });
+
+  it("sends every old URL to a page the build actually produced", () => {
+    for (const r of redirects)
+      expect(existsSync(path.join(DIST, r.destination))).toBe(true);
+  });
+
+  it("covers every restored article exactly once", () => {
+    const destinations = redirects.map((r) => r.destination.slice(1));
+    expect(new Set(destinations)).toEqual(new Set(archiveArticles));
+  });
+
+  it("never shadows a live page", () => {
+    // A redirect whose source matched a live URL would take that page off the
+    // site silently -- it still builds, it just stops being reachable.
+    for (const r of redirects) {
+      expect(pages).not.toContain(`${r.source.slice(1)}.html`);
+      expect(existsSync(path.join(DIST, r.source.slice(1)))).toBe(false);
+    }
+  });
+
+  it("writes sources in the form trailingSlash:false produces", () => {
+    expect(cfg.trailingSlash).toBe(false);
+    for (const r of redirects) expect(r.source).toMatch(/^\/[a-z0-9-]+$/);
+  });
+});
+
 /* ------------------------------------------------------------------- 404 */
 
 describe("404", () => {
@@ -288,12 +440,12 @@ describe("robots.txt", () => {
 
 describe("javascript payload", () => {
   it("loads no external script on any page", () => {
-    for (const file of pages)
+    for (const file of allPages)
       expect(read(file)).not.toMatch(/<script[^>]*\ssrc=/);
   });
 
   it("keeps inline script small on every page", () => {
-    for (const file of pages) {
+    for (const file of allPages) {
       const inline = [
         ...read(file).matchAll(
           /<script(?![^>]*type="application\/ld\+json")[^>]*>([\s\S]*?)<\/script>/g,
@@ -309,7 +461,7 @@ describe("javascript payload", () => {
 describe("internal links", () => {
   it("never points at a file the build did not produce", () => {
     const broken = [];
-    for (const file of pages) {
+    for (const file of allPages) {
       const html = read(file);
       const refs = new Set([
         ...[...html.matchAll(/href="(\/[^"#?]*)"/g)].map((m) => m[1]),

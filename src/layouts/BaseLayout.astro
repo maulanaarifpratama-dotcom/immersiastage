@@ -29,6 +29,12 @@ interface Props {
   type?: "website" | "article";
   jsonLd?: Record<string, unknown> | null;
   noindex?: boolean;
+  /**
+   * BCP 47 tag for <html lang>. Everything live is English; the restored
+   * Indonesian archive under /id/insights/ passes "id" so screen readers and
+   * translation tools do not read Indonesian prose with English rules.
+   */
+  lang?: string;
 }
 
 const {
@@ -39,6 +45,7 @@ const {
   type: typeOverride,
   jsonLd = null,
   noindex: noindexOverride,
+  lang = "en",
 } = Astro.props;
 
 const meta = resolvePageMeta(metaKey);
@@ -63,7 +70,7 @@ const fullTitle =
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -122,9 +122,61 @@ const articles = defineCollection({
       }),
     })
     .refine((d) => d.dateStatus !== "confirmed" || d.pubDate instanceof Date, {
-      message: "dateStatus \"confirmed\" requires a pubDate",
+      message: 'dateStatus "confirmed" requires a pubDate',
       path: ["pubDate"],
     }),
+});
+
+/**
+ * The nineteen Indonesian articles the WordPress site published between 10 and
+ * 26 March 2026 and the SPA migration dropped without redirects.
+ *
+ * Deliberately a separate collection from `articles` rather than a locale
+ * dimension on it. These are an archive, not a second edition: they are
+ * noindex, kept out of the sitemap and out of every feed on the live site, and
+ * nothing new will be written into them. Folding them into `articles` would
+ * have forced every field the live articles need — label, hero, card image,
+ * CTA — onto records that have none of them, and would have put archive
+ * entries one filter away from appearing on the homepage.
+ *
+ * Every field here came out of each page's Yoast schema graph in the Wayback
+ * capture, not out of the visible HTML: the rendered page repeats all five
+ * category links and three sidebar thumbnails on every article, so scraping
+ * what a reader sees gives all nineteen the same categories and the same
+ * images.
+ */
+const legacy = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/legacy" }),
+  schema: z.object({
+    title: z.string().min(1),
+    /** Authoritative: schema.org datePublished, not the Indonesian date text. */
+    pubDate: z.coerce.date(),
+    dateModified: z.coerce.date().optional(),
+    category: z.enum([
+      "Impact Strategy",
+      "Insight",
+      "Framework & Tools",
+      "Program Design",
+    ]),
+    author: z.string().min(1),
+    /** First sentence of the body, capped at 220 characters. Never written
+     *  fresh — the source has no excerpt field to recover. */
+    excerpt: z.string().min(1).max(220),
+    /** The WordPress URL this article was published at. The redirect list and
+     *  the page are generated from this one value so they cannot drift. */
+    originalPath: z
+      .string()
+      .regex(/^\/[a-z0-9-]+\/$/, "originalPath must look like /some-slug/"),
+    /**
+     * Optional, and every entry currently omits it. The images were never
+     * archived: the theme lazy-loaded through `data-src`, so the crawler saw
+     * no `src` to follow, and the CDX index holds no wp-content capture at
+     * all. `heroImageOriginal` records the filename the post used so the
+     * originals can be dropped in if the media library still exists somewhere.
+     */
+    heroImage: z.string().startsWith("/assets/").optional(),
+    heroImageOriginal: z.string().min(1).optional(),
+  }),
 });
 
 const publications = defineCollection({
@@ -184,6 +236,7 @@ export const collections = {
   faq,
   services,
   articles,
+  legacy,
   publications,
   projects,
   featured,
