@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://immersia.id/sitemap-index.xml

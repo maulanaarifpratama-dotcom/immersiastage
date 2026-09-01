@@ -14,7 +14,7 @@ export default function ExecCta() {
             deliverables.
           </p>
           <div className="actions">
-            <Link className="btn gold" to="request-proposal.html">
+            <Link className="btn gold" to="/request-proposal.html">
               Request Proposal
             </Link>
             <a className="btn ghost" href="mailto:info@immersia.id">

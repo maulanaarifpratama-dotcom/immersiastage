@@ -1,0 +1,90 @@
+---
+/**
+ * One template for the three service detail pages.
+ *
+ * Their structure in the SPA was identical — banner, products grid,
+ * engagements grid, CTA — across 325 lines in three files that drifted only in
+ * data. Collapsing them proves the dynamic-route pattern the article and
+ * publication pages will use in phase 3.
+ *
+ * URLs are preserved exactly. getStaticPaths returns the bare slug and
+ * `build.format: "file"` appends the extension, so this emits
+ * integrated-advisory.html, modular-services.html and impact-lab.html at the
+ * output root — not /integrated-advisory/index.html.
+ */
+import { getCollection } from "astro:content";
+import PageLayout from "../layouts/PageLayout.astro";
+import Icon from "../components/Icon.jsx";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  return services.map((entry) => ({
+    params: { service: entry.id },
+    props: { service: entry.data },
+  }));
+}
+
+const { service } = Astro.props;
+---
+
+<PageLayout
+  metaKey={`${Astro.params.service}.html`}
+  label={service.label}
+  title={service.title}
+>
+  <section class="white">
+    <div class="wrap">
+      <img loading="lazy" class="banner" src={service.banner} alt="" />
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <small>What we deliver</small>
+      <h2>Practical outputs designed for institutional use.</h2>
+      <div class="three products">
+        {
+          service.products.map((p) => (
+            <article>
+              <h3>{p.title}</h3>
+              <p>
+                Practical outputs, tools, and institutional application tailored
+                to the engagement.
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="white">
+    <div class="wrap">
+      <small>Selected client engagements</small>
+      <h2>Representative experience.</h2>
+      <div class="three">
+        {
+          service.engagements.map((e) => (
+            <article class={`eng${e.soon ? " soon" : ""}`}>
+              {e.soon && <span class="badge">Coming soon</span>}
+              <img loading="lazy" src={e.image} alt="" width="360" height="190" />
+              <div>
+                <small>{e.domain}</small>
+                <h3>{e.name}</h3>
+                <p>{e.desc}</p>
+                {e.note && !e.soon && <em>{e.note}</em>}
+                <a href="/project-records.html">
+                  <span>
+                    View Record
+                    <span class="visually-hidden"> for {e.name}</span>
+                  </span>
+                  <Icon name="arrowRight" size={17} />
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</PageLayout>

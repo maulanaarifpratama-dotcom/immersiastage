@@ -1,0 +1,33 @@
+---
+/**
+ * Required by TASK 3, not by page migration.
+ *
+ * Vercel serves the output root's 404.html for any path with no matching file,
+ * but only once the catch-all SPA rewrite is gone — that rewrite answered every
+ * unknown URL with index.html and HTTP 200. Removing it without providing this
+ * page would leave Vercel's own generic 404 instead of Immersia's.
+ *
+ * Copy comes from src/views/NotFoundPage.jsx. The requested path is not shown:
+ * a static 404 has no way to know it, and the SPA version's useLocation() has no
+ * equivalent here. That is a deliberate loss, recorded in the phase 1.5 report.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout metaKey="404">
+  <section class="notfound">
+    <div class="wrap">
+      <small>404</small>
+      <h1>This page is not here.</h1>
+      <p>
+        The address may have changed, or the link that brought you here may be
+        out of date.
+      </p>
+      <div class="actions">
+        <a class="btn gold" href="/">Back to home</a>
+        <a class="btn" href="/news.html">Browse News &amp; Articles</a>
+        <a class="btn" href="/project-records.html">Browse Project Records</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

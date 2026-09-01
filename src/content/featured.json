@@ -1,0 +1,50 @@
+[
+  {
+    "id": "ycab-foundation",
+    "order": 1,
+    "client": "YCAB Foundation",
+    "engagement": "ANDAL Baseline and Feasibility Study",
+    "label": "Featured engagement",
+    "image": "/assets/photos/ycab1.webp"
+  },
+  {
+    "id": "baznas-ri",
+    "order": 2,
+    "client": "BAZNAS RI",
+    "engagement": "4 Programs Impact Study Using SROI and OECD-DAC",
+    "label": "Featured engagement",
+    "image": "/assets/photos/baznas.webp"
+  },
+  {
+    "id": "human-initiative-and-pertamina-ep",
+    "order": 3,
+    "client": "Human Initiative and Pertamina EP",
+    "engagement": "Community Empowerment Impact Study",
+    "label": "Featured engagement",
+    "image": "/assets/photos/human1.webp"
+  },
+  {
+    "id": "ybm-brilian",
+    "order": 4,
+    "client": "YBM BRILiaN",
+    "engagement": "Impact Study Series Using SROI, MSC, and CSI",
+    "label": "Featured engagement",
+    "image": "/assets/photos/ybm2.webp"
+  },
+  {
+    "id": "edu-farmers-international",
+    "order": 5,
+    "client": "Edu Farmers International",
+    "engagement": "SROI Monitoring and M&E Framework Development",
+    "label": "Featured engagement",
+    "image": "/assets/photos/edufarmers.webp"
+  },
+  {
+    "id": "seahum",
+    "order": 6,
+    "client": "SEAHUM",
+    "engagement": "MEAL Capacity Building for Southeast Asian CSOs",
+    "label": "Featured engagement",
+    "image": "/assets/photos/seahum1.webp"
+  }
+]

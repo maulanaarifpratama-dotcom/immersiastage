@@ -1,0 +1,139 @@
+[
+  {
+    "id": "integrated-advisory",
+    "order": 1,
+    "label": "For organization",
+    "title": "Integrated Impact Advisory",
+    "summary": "Impact architecture, M&E systems, implementation, and grant support.",
+    "cardImage": "/assets/photos/organization.webp",
+    "banner": "/assets/photos/worldbank.webp",
+    "products": [
+      { "title": "Impact Architecture" },
+      { "title": "M&E Framework and System" },
+      { "title": "System Implementation" },
+      { "title": "Grant and Implementation Support" }
+    ],
+    "engagements": [
+      {
+        "image": "/assets/photos/nama.webp",
+        "domain": "Organization",
+        "name": "NAMA Foundation Malaysia",
+        "desc": "CSO and School Index Development",
+        "note": "Founding Team Experience"
+      },
+      {
+        "image": "/assets/photos/edufarmers.webp",
+        "domain": "Organization",
+        "name": "Edu Farmers International",
+        "desc": "SROI Monitoring and M&E Framework Development"
+      },
+      {
+        "image": "/assets/photos/dispora.webp",
+        "domain": "Organization",
+        "name": "Dispora Kabupaten Bogor",
+        "desc": "Risk Management System and Business Process Documentation"
+      },
+      {
+        "image": "/assets/photos/nfdmc.webp",
+        "domain": "Organization",
+        "name": "NFDMC and Save the Children",
+        "desc": "Violence Prevention Program: Implementation Monitoring"
+      }
+    ]
+  },
+  {
+    "id": "modular-services",
+    "order": 2,
+    "label": "For program / project",
+    "title": "Modular Impact Services",
+    "summary": "Baseline research, design, evaluation, and impact assessment.",
+    "cardImage": "/assets/photos/human2.webp",
+    "banner": "/assets/photos/general26.webp",
+    "products": [
+      { "title": "Baseline Research Study" },
+      { "title": "Program Design" },
+      { "title": "Program Evaluation Study" },
+      { "title": "Impact Assessment" }
+    ],
+    "engagements": [
+      {
+        "image": "/assets/photos/ycab2.webp",
+        "domain": "Program / Project",
+        "name": "YCAB Foundation",
+        "desc": "ANDAL Baseline and Feasibility Study"
+      },
+      {
+        "image": "/assets/photos/coming.webp",
+        "domain": "Program / Project",
+        "name": "Atome and Bisa Baik Bersama",
+        "desc": "Atome Untuk Negeri: CSR Program Design and Implementation Advisory",
+        "note": "Coming Soon",
+        "soon": true
+      },
+      {
+        "image": "/assets/photos/coming.webp",
+        "domain": "Program / Project",
+        "name": "PLAN International",
+        "desc": "CS5 Annual Survey: Community Scorecard",
+        "note": "Coming Soon",
+        "soon": true
+      },
+      {
+        "image": "/assets/photos/nfdmc-road-safety.webp",
+        "domain": "Program / Project",
+        "name": "NFDMC and Save the Children Korea",
+        "desc": "Road Safety Program Monitoring: Phase 3"
+      },
+      {
+        "image": "/assets/photos/wvi.webp",
+        "domain": "Program / Project",
+        "name": "World Vision Indonesia",
+        "desc": "Multiple Program Evaluations",
+        "note": "Founding Team Experience"
+      },
+      {
+        "image": "/assets/photos/bri.webp",
+        "domain": "Program / Project",
+        "name": "PT Bank Rakyat Indonesia",
+        "desc": "Desa Brilian Impact Assessment"
+      }
+    ]
+  },
+  {
+    "id": "impact-lab",
+    "order": 3,
+    "label": "For people",
+    "title": "Impact Capacity Building",
+    "summary": "Practical capability through Immersia Impact Lab.",
+    "cardImage": "/assets/photos/general27.webp",
+    "banner": "/assets/photos/general27.webp",
+    "products": [
+      { "title": "MEAL for Impact" },
+      { "title": "Project Management for Impact" },
+      { "title": "Research Methods for Impact" },
+      { "title": "Theory of Change and Logic Model" },
+      { "title": "AI for Impact" },
+      { "title": "Grant Writing for Impact" }
+    ],
+    "engagements": [
+      {
+        "image": "/assets/photos/seahum2.webp",
+        "domain": "People",
+        "name": "SEAHUM",
+        "desc": "MEAL Capacity Building"
+      },
+      {
+        "image": "/assets/photos/practice2.webp",
+        "domain": "People",
+        "name": "Immersia Impact Lab",
+        "desc": "MEAL for Impact: Batch 01"
+      },
+      {
+        "image": "/assets/photos/poroz.webp",
+        "domain": "People",
+        "name": "POROZ",
+        "desc": "Impact-Driven Zakat Empowerment Learning Program"
+      }
+    ]
+  }
+]

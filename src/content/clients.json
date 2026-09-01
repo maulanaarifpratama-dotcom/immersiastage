@@ -1,0 +1,132 @@
+[
+  {
+    "id": "client-01",
+    "order": 1,
+    "logo": "/assets/logos/1.webp"
+  },
+  {
+    "id": "client-02",
+    "order": 2,
+    "logo": "/assets/logos/2.webp"
+  },
+  {
+    "id": "client-03",
+    "order": 3,
+    "logo": "/assets/logos/3.webp"
+  },
+  {
+    "id": "client-04",
+    "order": 4,
+    "logo": "/assets/logos/4.webp"
+  },
+  {
+    "id": "client-05",
+    "order": 5,
+    "logo": "/assets/logos/5.webp"
+  },
+  {
+    "id": "client-06",
+    "order": 6,
+    "logo": "/assets/logos/6.webp"
+  },
+  {
+    "id": "client-07",
+    "order": 7,
+    "logo": "/assets/logos/7.webp"
+  },
+  {
+    "id": "client-08",
+    "order": 8,
+    "logo": "/assets/logos/8.webp"
+  },
+  {
+    "id": "client-09",
+    "order": 9,
+    "logo": "/assets/logos/9.webp"
+  },
+  {
+    "id": "client-10",
+    "order": 10,
+    "logo": "/assets/logos/10.webp"
+  },
+  {
+    "id": "client-11",
+    "order": 11,
+    "logo": "/assets/logos/11.webp"
+  },
+  {
+    "id": "client-12",
+    "order": 12,
+    "logo": "/assets/logos/12.webp"
+  },
+  {
+    "id": "client-13",
+    "order": 13,
+    "logo": "/assets/logos/13.webp"
+  },
+  {
+    "id": "client-14",
+    "order": 14,
+    "logo": "/assets/logos/14.webp"
+  },
+  {
+    "id": "client-15",
+    "order": 15,
+    "logo": "/assets/logos/15.webp"
+  },
+  {
+    "id": "client-16",
+    "order": 16,
+    "logo": "/assets/logos/16.webp"
+  },
+  {
+    "id": "client-17",
+    "order": 17,
+    "logo": "/assets/logos/17.webp"
+  },
+  {
+    "id": "client-18",
+    "order": 18,
+    "logo": "/assets/logos/18.webp"
+  },
+  {
+    "id": "client-19",
+    "order": 19,
+    "logo": "/assets/logos/19.webp"
+  },
+  {
+    "id": "client-20",
+    "order": 20,
+    "logo": "/assets/logos/20.webp"
+  },
+  {
+    "id": "client-21",
+    "order": 21,
+    "logo": "/assets/logos/21.webp"
+  },
+  {
+    "id": "client-22",
+    "order": 22,
+    "logo": "/assets/logos/22.webp"
+  },
+  {
+    "id": "client-23",
+    "order": 23,
+    "logo": "/assets/logos/23.webp"
+  },
+  {
+    "id": "client-24",
+    "order": 24,
+    "logo": "/assets/logos/24.webp"
+  },
+  {
+    "id": "client-25",
+    "order": 25,
+    "logo": "/assets/logos/25.webp"
+  },
+  {
+    "id": "client-26",
+    "order": 26,
+    "logo": "/assets/logos/26.webp"
+  }
+]

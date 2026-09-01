@@ -1,0 +1,78 @@
+import PageHero from "../components/sections/PageHero";
+import ExecCta from "../components/sections/ExecCta";
+
+const faqGroups = [
+  {
+    title: "Services and Methodology",
+    items: [
+      {
+        q: "What is the difference between Immersia’s three service domains?",
+        a: "Integrated Impact Advisory works at the organizational level, Modular Impact Services addresses specific programs and projects, and Impact Capacity Building strengthens the capabilities of people and teams.",
+      },
+      {
+        q: "Can Immersia’s services be engaged as standalone assignments?",
+        a: "Yes. Baseline research, program design, evaluation, impact assessment, advisory support, and capacity building can be engaged as standalone assignments or combined into a connected sequence.",
+      },
+      {
+        q: "How does Immersia select the appropriate methodology?",
+        a: "Methodology is selected based on the decision question, operating context, stakeholder needs, program maturity, available evidence, data readiness, institutional capacity, and intended use of the findings.",
+      },
+      {
+        q: "What deliverables will our organization receive?",
+        a: "Deliverables depend on scope and may include research reports, frameworks, Theory of Change, indicator matrices, SOPs, dashboards, assessment tools, recommendations, facilitation materials, and capacity-building resources.",
+      },
+    ],
+  },
+  {
+    title: "Engagement and Delivery",
+    items: [
+      {
+        q: "Does Immersia provide tailored in-house training?",
+        a: "Yes. Immersia Impact Lab provides tailored programs that can use organizational cases, existing tools, facilitated practice, mentoring, assignments, and follow-up support.",
+      },
+      {
+        q: "Can engagements be delivered online, offline, or in a hybrid format?",
+        a: "Yes. Advisory, research, facilitation, mentoring, and training can be delivered online, offline, or in a hybrid format according to the assignment and stakeholder needs.",
+      },
+      {
+        q: "How does Immersia support institutional capacity transfer?",
+        a: "Capacity transfer may include methodology handover, practical templates, SOPs, dashboards, coaching, mentoring, joint development, facilitated practice, and support for internal ownership.",
+      },
+    ],
+  },
+  {
+    title: "Capacity Transfer and Next Steps",
+    items: [
+      {
+        q: "What does the initial engagement process look like?",
+        a: "The process normally begins with a scoping discussion, followed by clarification of objectives, methodology, deliverables, stakeholders, timeline, collaboration format, and budget before a proposal is finalized.",
+      },
+      {
+        q: "How can our organization request a proposal?",
+        a: "Complete the Request Proposal form, email info@immersia.id, or contact Immersia through WhatsApp at +62 816-4603-5257. The team will follow up to clarify the scope.",
+      },
+    ],
+  },
+];
+
+export default function FaqPage() {
+  return (
+    <>
+      <PageHero label="FAQ" title="Before working with Immersia." />
+      <div className="wrap faqpage">
+        {faqGroups.map((g) => (
+          <section key={g.title} className="faqgroup">
+            <h2>{g.title}</h2>
+            {g.items.map((item, i) => (
+              <details key={i}>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+          </section>
+        ))}
+      </div>
+      <ExecCta />
+    </>
+  );
+}

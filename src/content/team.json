@@ -1,0 +1,34 @@
+[
+  {
+    "id": "dasril-guntara",
+    "order": 1,
+    "name": "Dasril Guntara",
+    "role": "Executive Director",
+    "portrait": "/assets/team/dasril.webp",
+    "bio": "Impact advisory and evaluation leader with more than 15 years of experience across development, humanitarian response, and institutional systems."
+  },
+  {
+    "id": "fariz-adlan-saputra",
+    "order": 2,
+    "name": "Fariz Adlan Saputra",
+    "role": "Business Development Director",
+    "portrait": "/assets/team/fariz.webp",
+    "bio": "Impact-driven business builder leading service architecture, proposal development, institutional partnerships, and purpose-led growth."
+  },
+  {
+    "id": "maulana-arif-pratama",
+    "order": 3,
+    "name": "Maulana Arif Pratama",
+    "role": "Marketing and Partnership Director",
+    "portrait": "/assets/team/maulana.webp",
+    "bio": "Digital growth strategist leading marketing, brand presence, partnership outreach, and technology-enabled communication infrastructure."
+  },
+  {
+    "id": "handriyana",
+    "order": 4,
+    "name": "Handriyana",
+    "role": "PMO and Operations Director",
+    "portrait": "/assets/team/handriyana.webp",
+    "bio": "Operations and project management professional leading workflows, delivery tracking, reporting, documentation, and stakeholder coordination."
+  }
+]

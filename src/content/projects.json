@@ -1,0 +1,269 @@
+[
+  {
+    "id": "nama-foundation-malaysia-cso-and-school-index-development",
+    "order": 1,
+    "name": "NAMA Foundation Malaysia",
+    "desc": "CSO and School Index Development",
+    "domain": "organization",
+    "status": "founding-team",
+    "image": "/assets/photos/nama.webp"
+  },
+  {
+    "id": "edu-farmers-international-sroi-monitoring-and-m-e-framework",
+    "order": 2,
+    "name": "Edu Farmers International",
+    "desc": "SROI Monitoring and M&E Framework Development",
+    "domain": "organization",
+    "status": "active",
+    "image": "/assets/photos/edufarmers.webp",
+    "homeOrder": 1
+  },
+  {
+    "id": "dispora-kabupaten-bogor-risk-management-system-and-business",
+    "order": 3,
+    "name": "Dispora Kabupaten Bogor",
+    "desc": "Risk Management System and Business Process Documentation",
+    "domain": "organization",
+    "status": "active",
+    "image": "/assets/photos/dispora.webp"
+  },
+  {
+    "id": "nfdmc-and-save-the-children-violence-prevention-program-impl",
+    "order": 4,
+    "name": "NFDMC and Save the Children",
+    "desc": "Violence Prevention Program: Implementation Monitoring",
+    "domain": "organization",
+    "status": "active",
+    "image": "/assets/photos/nfdmc.webp"
+  },
+  {
+    "id": "ycab-foundation-andal-baseline-and-feasibility-study",
+    "order": 5,
+    "name": "YCAB Foundation",
+    "desc": "ANDAL Baseline and Feasibility Study",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/ycab2.webp",
+    "homeOrder": 2
+  },
+  {
+    "id": "atome-and-bisa-baik-bersama-atome-untuk-negeri-csr-program-d",
+    "order": 6,
+    "name": "Atome and Bisa Baik Bersama",
+    "desc": "Atome Untuk Negeri: CSR Program Design and Implementation Advisory",
+    "domain": "program-project",
+    "status": "coming-soon",
+    "image": "/assets/photos/coming.webp"
+  },
+  {
+    "id": "plan-international-cs5-annual-survey-community-scorecard",
+    "order": 7,
+    "name": "PLAN International",
+    "desc": "CS5 Annual Survey: Community Scorecard",
+    "domain": "program-project",
+    "status": "coming-soon",
+    "image": "/assets/photos/coming.webp"
+  },
+  {
+    "id": "nfdmc-and-save-the-children-korea-road-safety-program-monito",
+    "order": 8,
+    "name": "NFDMC and Save the Children Korea",
+    "desc": "Road Safety Program Monitoring: Phase 3",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/nfdmc-road-safety.webp"
+  },
+  {
+    "id": "world-vision-indonesia-multiple-program-evaluations",
+    "order": 9,
+    "name": "World Vision Indonesia",
+    "desc": "Multiple Program Evaluations",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/wvi.webp"
+  },
+  {
+    "id": "pt-bank-rakyat-indonesia-desa-brilian-impact-assessment",
+    "order": 10,
+    "name": "PT Bank Rakyat Indonesia",
+    "desc": "Desa Brilian Impact Assessment",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/bri.webp"
+  },
+  {
+    "id": "baznas-ri-4-programs-impact-study-using-sroi-and-oecd-dac",
+    "order": 11,
+    "name": "BAZNAS RI",
+    "desc": "4 Programs Impact Study Using SROI and OECD-DAC",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/baznas.webp",
+    "homeOrder": 3
+  },
+  {
+    "id": "human-initiative-and-pertamina-ep-community-empowerment-impa",
+    "order": 12,
+    "name": "Human Initiative and Pertamina EP",
+    "desc": "Community Empowerment Impact Study",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/human2.webp",
+    "homeOrder": 4
+  },
+  {
+    "id": "ybm-brilian-impact-study-series-using-sroi-msc-and-csi",
+    "order": 13,
+    "name": "YBM BRILiaN",
+    "desc": "Impact Study Series Using SROI, MSC, and CSI",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/ybm2.webp",
+    "homeOrder": 5
+  },
+  {
+    "id": "edu-farmers-international-sroi-monitoring-and-m-e-framework-2",
+    "order": 14,
+    "name": "Edu Farmers International",
+    "desc": "SROI Monitoring and M&E Framework Development",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/edufarmers.webp"
+  },
+  {
+    "id": "laz-zakat-sukses-zakat-impact-assessment",
+    "order": 15,
+    "name": "LAZ Zakat Sukses",
+    "desc": "Zakat Impact Assessment",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/zakat-sukses.webp"
+  },
+  {
+    "id": "people-and-project-management-consultant-project-management",
+    "order": 16,
+    "name": "People and Project Management Consultant",
+    "desc": "Project Management System Development",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/people.webp"
+  },
+  {
+    "id": "baznas-ri-bnpb-ministry-of-social-affairs-post-disaster-coor",
+    "order": 17,
+    "name": "BAZNAS RI, BNPB, Ministry of Social Affairs",
+    "desc": "Post-Disaster Coordination and Needs Assessment Memorandum",
+    "domain": "program-project",
+    "status": "founding-team",
+    "image": "/assets/photos/baznas-memorandum.webp"
+  },
+  {
+    "id": "ybm-brilian-ybm-brilian-scholarship-program-impact-assessmen",
+    "order": 18,
+    "name": "YBM BRILiaN",
+    "desc": "YBM BRILiaN Scholarship Program Impact Assessment",
+    "domain": "program-project",
+    "status": "founding-team",
+    "image": "/assets/photos/ybm1.webp"
+  },
+  {
+    "id": "ycab-foundation-andal-baseline-and-feasibility-study-2",
+    "order": 19,
+    "name": "YCAB Foundation",
+    "desc": "ANDAL: Baseline and Feasibility Study",
+    "domain": "program-project",
+    "status": "founding-team",
+    "image": "/assets/photos/ycab1.webp"
+  },
+  {
+    "id": "seahum-meal-capacity-building-program-for-seahum-partner-org",
+    "order": 20,
+    "name": "SEAHUM",
+    "desc": "MEAL Capacity Building Program for SEAHUM Partner Organizations",
+    "domain": "program-project",
+    "status": "founding-team",
+    "image": "/assets/photos/seahum1.webp"
+  },
+  {
+    "id": "immersia-immersia-impact-lab-meal-for-impact-batch-01",
+    "order": 21,
+    "name": "Immersia",
+    "desc": "Immersia Impact Lab: MEAL for Impact Batch 01",
+    "domain": "program-project",
+    "status": "active",
+    "image": "/assets/photos/practice1.webp"
+  },
+  {
+    "id": "seahum-meal-for-impact-batch-02",
+    "order": 22,
+    "name": "SEAHUM",
+    "desc": "MEAL for Impact Batch 02",
+    "domain": "program-project",
+    "status": "coming-soon",
+    "image": "/assets/photos/coming.webp"
+  },
+  {
+    "id": "atome-and-bisa-baik-bersama-atome-untuk-negeri-impact-assess",
+    "order": 23,
+    "name": "Atome and Bisa Baik Bersama",
+    "desc": "Atome Untuk Negeri: Impact Assessment",
+    "domain": "program-project",
+    "status": "coming-soon",
+    "image": "/assets/photos/coming.webp"
+  },
+  {
+    "id": "seahum-meal-capacity-building",
+    "order": 24,
+    "name": "SEAHUM",
+    "desc": "MEAL Capacity Building",
+    "domain": "organization",
+    "status": "active",
+    "image": "/assets/photos/seahum2.webp",
+    "homeOrder": 6
+  },
+  {
+    "id": "world-vision-indonesia-multiple-program-evaluations-tpat-ass",
+    "order": 25,
+    "name": "World Vision Indonesia",
+    "desc": "Multiple Program Evaluations, TPAT Assessment",
+    "domain": "organization",
+    "status": "active",
+    "image": "/assets/photos/wvi.webp"
+  },
+  {
+    "id": "nama-foundation-malaysia-cso-and-school-index-development-2",
+    "order": 26,
+    "name": "NAMA Foundation Malaysia",
+    "desc": "CSO and School Index Development",
+    "domain": "organization",
+    "status": "founding-team",
+    "image": "/assets/photos/nama.webp"
+  },
+  {
+    "id": "ybm-brilian-regulatory-compliance-support",
+    "order": 27,
+    "name": "YBM BRILiaN",
+    "desc": "Regulatory Compliance Support",
+    "domain": "organization",
+    "status": "founding-team",
+    "image": "/assets/photos/ybm3.webp"
+  },
+  {
+    "id": "world-vision-singapore-ycab-foundation-andal-participant-and",
+    "order": 28,
+    "name": "World Vision Singapore / YCAB Foundation",
+    "desc": "ANDAL: Participant and Community Training",
+    "domain": "program-project",
+    "status": "founding-team",
+    "image": "/assets/photos/practice3.webp"
+  },
+  {
+    "id": "ybm-brilian-social-return-on-investment-training",
+    "order": 29,
+    "name": "YBM BRILiaN",
+    "desc": "Social Return on Investment Training",
+    "domain": "program-project",
+    "status": "founding-team",
+    "image": "/assets/photos/practice4.webp"
+  }
+]

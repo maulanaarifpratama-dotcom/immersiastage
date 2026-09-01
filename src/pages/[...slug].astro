@@ -1,0 +1,175 @@
+---
+/**
+ * Articles and publications share one catch-all route.
+ *
+ * Both live at the site root as `<slug>.html` — there is no `/news/` or
+ * `/publications/` path segment to separate them — so a single getStaticPaths
+ * enumerating both collections is the honest shape. Each page has exactly one
+ * producer; the `kind` prop decides which body renders.
+ *
+ * URLs are unchanged: the slug is returned bare and `build.format: "file"`
+ * appends the extension.
+ */
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/sections/PageHero.jsx";
+import ExecCta from "../components/astro/ExecCta.astro";
+import { SITE_URL, SITE_NAME } from "../lib/page-meta.js";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  const publications = await getCollection("publications");
+
+  return [
+    ...articles.map((entry) => ({
+      params: { slug: entry.id },
+      props: { kind: "article" as const, entry },
+    })),
+    ...publications.map((entry) => ({
+      params: { slug: entry.id },
+      props: { kind: "publication" as const, entry },
+    })),
+  ];
+}
+
+const { kind, entry } = Astro.props;
+const url = `${SITE_URL}/${Astro.params.slug}.html`;
+
+/** Mirrors resolveMeta()'s truncate(): first 175 chars, cut at a word. */
+function truncate(text: string, max = 175) {
+  if (!text || text.length <= max) return text;
+  return `${text.slice(0, max).replace(/\s+\S*$/, "")}…`;
+}
+
+const publisher = {
+  "@type": "Organization",
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/assets/brand/logo.png`,
+};
+
+let meta;
+let jsonLd: Record<string, unknown>;
+let Content: any = null;
+
+if (kind === "article") {
+  const a = entry.data;
+  meta = {
+    title: a.seoTitle ?? a.title,
+    description: a.seoDescription ?? truncate(a.lead),
+    image: `${SITE_URL}${a.hero}`,
+  };
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: a.title,
+    description: meta.description,
+    mainEntityOfPage: url,
+    image: [meta.image],
+    articleSection: a.category,
+    author: { "@type": "Organization", name: a.author },
+    publisher,
+    // datePublished is emitted only when a human has confirmed the date.
+    // No article currently has one, so none is emitted.
+    ...(a.dateStatus === "confirmed" && a.pubDate
+      ? { datePublished: a.pubDate.toISOString().slice(0, 10) }
+      : {}),
+  };
+  ({ Content } = await render(entry));
+} else {
+  const p = entry.data;
+  meta = {
+    title: p.title,
+    // The label repeats across publications ("SROI Study | 2025" twice,
+    // "Community Satisfaction | 2025" twice), so a description built from it
+    // alone gave four pages two descriptions. The title is what distinguishes
+    // them.
+    description: `${p.title}. ${p.label}. Representative publication from Immersia's advisory portfolio.`,
+    image: `${SITE_URL}${p.cover}`,
+  };
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: p.title,
+    description: meta.description,
+    mainEntityOfPage: url,
+    image: [meta.image],
+    publisher,
+  };
+}
+---
+
+<BaseLayout
+  metaKey={`${Astro.params.slug}.html`}
+  title={meta.title}
+  description={meta.description}
+  image={meta.image}
+  type="article"
+  jsonLd={jsonLd}
+>
+  {
+    kind === "article" ? (
+      <>
+        <header
+          class={`articlehero${entry.data.heroSize === "long" ? " long" : ""}`}
+          style={`--hero: url(${entry.data.hero})`}
+        >
+          <div class="wrap">
+            <small>{entry.data.label}</small>
+            <h1>{entry.data.title}</h1>
+          </div>
+        </header>
+
+        <article
+          class={`articlebody${entry.data.hasReferences ? " has-refs" : ""}`}
+        >
+          <p class="lead">{entry.data.lead}</p>
+
+          {entry.data.figure && (
+            <figure>
+              <img
+                loading="lazy"
+                src={entry.data.figure}
+                alt="Immersia practice documentation"
+              />
+            </figure>
+          )}
+
+          <div class="prose">
+            <Content />
+          </div>
+
+          <div class="articlecta">
+            <h2>{entry.data.cta.title}</h2>
+            <p>{entry.data.cta.desc}</p>
+            <a class="btn gold" href="/request-proposal.html">
+              {entry.data.cta.label}
+            </a>
+          </div>
+        </article>
+      </>
+    ) : (
+      <>
+        <PageHero label={entry.data.label} title={entry.data.title} />
+        <section class="white">
+          <div class="wrap split">
+            <img
+              loading="lazy"
+              src={entry.data.cover}
+              alt={`Cover of ${entry.data.title}`}
+            />
+            <div>
+              <h2>Representative Publication</h2>
+              <p>
+                The full report contains client and program information that is
+                not publicly available.
+              </p>
+            </div>
+          </div>
+        </section>
+      </>
+    )
+  }
+
+  <ExecCta />
+</BaseLayout>

@@ -1,0 +1,145 @@
+---
+/**
+ * Index of the restored Indonesian archive.
+ *
+ * Deliberately not wired into the site navigation. Its job is to give the
+ * nineteen restored pages one honest parent so a visitor who lands on one from
+ * an old search result or an old link can see the rest — not to reopen an
+ * Indonesian content stream the organisation is not running.
+ */
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const entries = (await getCollection("legacy")).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+const first = entries[entries.length - 1]?.data.pubDate;
+const last = entries[0]?.data.pubDate;
+---
+
+<BaseLayout
+  metaKey="id/insights.html"
+  title="Arsip Artikel Indonesia"
+  description="Sembilan belas artikel berbahasa Indonesia yang terbit di situs Immersia versi sebelumnya pada Maret 2026, dipulihkan sebagai arsip."
+  lang="id"
+  noindex={true}
+>
+  <header class="articlehero archivehero">
+    <div class="wrap">
+      <small>Arsip</small>
+      <h1>Artikel Indonesia, Maret 2026</h1>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap archivewrap">
+      <p class="archivenote">
+        {entries.length} artikel berbahasa Indonesia yang terbit di situs Immersia
+        versi sebelumnya antara {fmt(first)} dan {fmt(last)}. Semuanya dipulihkan
+        apa adanya dan tidak diperbarui. Tulisan terbaru kami dalam bahasa Inggris
+        ada di <a href="/news.html">News &amp; Articles</a>.
+      </p>
+
+      <ul class="archivelist">
+        {
+          entries.map(({ id, data }) => (
+            <li>
+              <a href={`/id/insights/${id}.html`}>
+                <span class="archivedate">
+                  <time datetime={data.pubDate.toISOString().slice(0, 10)}>
+                    {fmt(data.pubDate)}
+                  </time>
+                  <span class="archivecat">{data.category}</span>
+                </span>
+                <h2>{data.title}</h2>
+                <p>{data.excerpt}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .archivehero {
+    min-height: 360px;
+    padding: 148px 0 56px;
+    background-image: linear-gradient(96deg, var(--carbon), var(--navy));
+  }
+
+  .archivewrap {
+    width: min(820px, calc(100% - 40px));
+    padding: 64px 0 24px;
+  }
+
+  .archivenote {
+    margin: 0 0 40px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--gold-ink);
+    background: var(--surface-raised);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
+  .archivelist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .archivelist li + li {
+    border-top: 1px solid var(--hairline);
+  }
+
+  .archivelist a {
+    display: block;
+    padding: 28px 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .archivelist a:hover h2,
+  .archivelist a:focus-visible h2 {
+    color: var(--gold-ink);
+  }
+
+  .archivedate {
+    display: flex;
+    gap: 12px;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  .archivecat {
+    color: var(--gold-ink);
+  }
+
+  .archivelist h2 {
+    margin: 8px 0 6px;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    line-height: 1.3;
+    transition: color 0.16s ease;
+  }
+
+  .archivelist p {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+</style>

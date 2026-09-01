@@ -1,3 +1,105 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "astro",
+  "buildCommand": "astro build",
+  "outputDirectory": "dist-astro",
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/apa-yang-diukur-dalam-social-impact-measurement-pahami-cara-menilai-dampak",
+      "destination": "/id/insights/apa-yang-diukur-dalam-social-impact-measurement-pahami-cara-menilai-dampak.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/apakah-csr-perusahaan-benar-benar-menjawab-masalah-sosial-refleksi-tentang-dampak-dan-strategi",
+      "destination": "/id/insights/apakah-csr-perusahaan-benar-benar-menjawab-masalah-sosial-refleksi-tentang-dampak-dan-strategi.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/dari-output-ke-outcome-mengubah-cara-organisasi-melihat-keberhasilan-program-sosial",
+      "destination": "/id/insights/dari-output-ke-outcome-mengubah-cara-organisasi-melihat-keberhasilan-program-sosial.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/esg-bukan-sekadar-tren-apa-implikasinya-bagi-program-sosial-perusahaan",
+      "destination": "/id/insights/esg-bukan-sekadar-tren-apa-implikasinya-bagi-program-sosial-perusahaan.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/how-organizations-can-align-programs-with-impact-goals",
+      "destination": "/id/insights/how-organizations-can-align-programs-with-impact-goals.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/kesalahan-umum-dalam-merancang-impact-strategy",
+      "destination": "/id/insights/kesalahan-umum-dalam-merancang-impact-strategy.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/ketika-evaluasi-program-hanya-menjadi-formalitas",
+      "destination": "/id/insights/ketika-evaluasi-program-hanya-menjadi-formalitas.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/ketika-program-sosial-kehilangan-arah-strategis-banyak-inisiatif-berjalan-tanpa-dampak-jelas",
+      "destination": "/id/insights/ketika-program-sosial-kehilangan-arah-strategis-banyak-inisiatif-berjalan-tanpa-dampak-jelas.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/memahami-kebutuhan-komunitas-sebelum-merancang-program-sosial",
+      "destination": "/id/insights/memahami-kebutuhan-komunitas-sebelum-merancang-program-sosial.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/memahami-teori-perubahan-dalam-pekerjaan-dampak-sosial",
+      "destination": "/id/insights/memahami-teori-perubahan-dalam-pekerjaan-dampak-sosial.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/membangun-budaya-evidence-based-dalam-program-sosial-untuk-dampak-yang-lebih-berkelanjutan",
+      "destination": "/id/insights/membangun-budaya-evidence-based-dalam-program-sosial-untuk-dampak-yang-lebih-berkelanjutan.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/mengapa-banyak-program-pembangunan-tampak-berhasil-di-atas-kertas-tetapi-gagal-di-lapangan",
+      "destination": "/id/insights/mengapa-banyak-program-pembangunan-tampak-berhasil-di-atas-kertas-tetapi-gagal-di-lapangan.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/mengapa-banyak-program-sosial-gagal-menciptakan-dampak-nyata",
+      "destination": "/id/insights/mengapa-banyak-program-sosial-gagal-menciptakan-dampak-nyata.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/mengapa-tata-kelola-program-sosial-menentukan-dampak-jangka-panjang",
+      "destination": "/id/insights/mengapa-tata-kelola-program-sosial-menentukan-dampak-jangka-panjang.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/pelajaran-dari-implementasi-program-pemberdayaan-umkm-apa-yang-benar-benar-berpengaruh",
+      "destination": "/id/insights/pelajaran-dari-implementasi-program-pemberdayaan-umkm-apa-yang-benar-benar-berpengaruh.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/peran-pemerintah-lokal-dalam-keberlanjutan-program-sosial-dan-dampaknya-bagi-komunitas",
+      "destination": "/id/insights/peran-pemerintah-lokal-dalam-keberlanjutan-program-sosial-dan-dampaknya-bagi-komunitas.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/peran-stakeholder-dalam-keberhasilan-program-csr-membangun-kolaborasi-untuk-dampak-nyata",
+      "destination": "/id/insights/peran-stakeholder-dalam-keberhasilan-program-csr-membangun-kolaborasi-untuk-dampak-nyata.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/risiko-program-sosial-yang-terlalu-bergantung-pada-bantuan-dan-tantangan-membangun-kemandirian-komunitas",
+      "destination": "/id/insights/risiko-program-sosial-yang-terlalu-bergantung-pada-bantuan-dan-tantangan-membangun-kemandirian-komunitas.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/strategic-mapping-cara-menyusun-arah-program-sosial-yang-lebih-terarah-dan-berdampak",
+      "destination": "/id/insights/strategic-mapping-cara-menyusun-arah-program-sosial-yang-lebih-terarah-dan-berdampak.html",
+      "statusCode": 301
+    }
+  ]
 }

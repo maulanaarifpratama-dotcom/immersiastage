@@ -1,0 +1,206 @@
+---
+/**
+ * Hero carousel, vanilla. Same markup, CSS and behaviour as the audited React
+ * component; only the mechanism differs.
+ *
+ * Carried over deliberately, because these were audit fixes:
+ *   - one <h1> for the page; later slides are <h2>
+ *   - inert + aria-hidden on off-screen slides, so keyboard focus cannot land
+ *     on a control the visitor cannot see
+ *   - a real pause control (WCAG 2.2.2: auto-advancing content needs one)
+ *   - autoplay stopped outright under prefers-reduced-motion
+ *   - a polite live region announcing the current slide
+ *   - dots with 26x44 hit areas around a 9px mark
+ */
+import { getCollection } from "astro:content";
+
+const slides = (await getCollection("featured")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const count = slides.length;
+---
+
+<header
+  class="hero"
+  role="region"
+  aria-roledescription="carousel"
+  aria-label="Featured engagements"
+  data-carousel
+>
+  <div class="track" data-track>
+    {
+      slides.map(({ data: s }, i) => (
+        <article
+          class="slide"
+          style={`--bg: url(${s.image})`}
+          aria-roledescription="slide"
+          aria-label={`${i + 1} of ${count}: ${s.client}`}
+          aria-hidden={i !== 0 ? "true" : "false"}
+          inert={i !== 0 ? true : undefined}
+        >
+          <div class="slidecopy">
+            <small>{s.label}</small>
+            {i === 0 ? <h1>{s.client}</h1> : <h2>{s.client}</h2>}
+            <p class="slidesub">{s.engagement}</p>
+            <p>
+              Evidence, systems, and capability connected to practical
+              decisions.
+            </p>
+            <div class="actions">
+              <a class="btn gold" href="/project-records.html">
+                View Project
+              </a>
+              <a class="btn ghost" href="/services.html">
+                Explore Service
+              </a>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <p class="herocount" aria-hidden="true" data-count>1 / {count}</p>
+
+  <div class="heroctl">
+    <button type="button" aria-label="Previous engagement" data-prev>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 6-6 6 6 6"></path></svg>
+    </button>
+
+    <div id="dots" role="tablist" aria-label="Choose engagement">
+      {
+        slides.map(({ data: s }, i) => (
+          <button
+            type="button"
+            role="tab"
+            aria-current={i === 0 ? "true" : "false"}
+            aria-selected={i === 0 ? "true" : "false"}
+            aria-label={`${s.client}, slide ${i + 1} of ${count}`}
+            data-dot={i}
+          />
+        ))
+      }
+    </div>
+
+    <button type="button" aria-label="Pause automatic rotation" data-play>
+      <svg class="i-pause" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5v13M14.5 5.5v13"></path></svg>
+      <svg class="i-play" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 5.2v13.6L19 12z"></path></svg>
+    </button>
+
+    <button type="button" aria-label="Next engagement" data-next>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.5 6 6 6-6 6"></path></svg>
+    </button>
+  </div>
+
+  <p class="visually-hidden" aria-live="polite" data-live></p>
+</header>
+
+<script>
+  const AUTOPLAY_MS = 6500;
+  const root = document.querySelector<HTMLElement>("[data-carousel]");
+
+  if (root) {
+    const track = root.querySelector<HTMLElement>("[data-track]")!;
+    const slides = [...track.children] as HTMLElement[];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-dot]")];
+    const countEl = root.querySelector<HTMLElement>("[data-count]")!;
+    const liveEl = root.querySelector<HTMLElement>("[data-live]")!;
+    const playBtn = root.querySelector<HTMLButtonElement>("[data-play]")!;
+    const n = slides.length;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let index = 0;
+    let playing = true;
+    let hovering = false;
+    let timer = 0;
+
+    const paint = () => {
+      slides.forEach((s, i) => {
+        s.setAttribute("aria-hidden", String(i !== index));
+        if (i === index) s.removeAttribute("inert");
+        else s.setAttribute("inert", "");
+      });
+      dots.forEach((d, i) => {
+        d.setAttribute("aria-current", String(i === index));
+        d.setAttribute("aria-selected", String(i === index));
+      });
+      countEl.textContent = `${index + 1} / ${n}`;
+      const s = slides[index];
+      liveEl.textContent = `Slide ${index + 1} of ${n}: ${
+        s.querySelector("h1, h2")?.textContent ?? ""
+      }, ${s.querySelector(".slidesub")?.textContent ?? ""}`;
+    };
+
+    const goTo = (next: number) => {
+      index = (next + n) % n;
+      track.scrollTo({
+        left: index * track.clientWidth,
+        behavior: reduced.matches ? "auto" : "smooth",
+      });
+      paint();
+      schedule();
+    };
+
+    function schedule() {
+      clearInterval(timer);
+      if (!playing || hovering || reduced.matches) return;
+      timer = window.setInterval(() => {
+        if (!document.hidden) goTo(index + 1);
+      }, AUTOPLAY_MS);
+    }
+
+    root.querySelector("[data-prev]")!.addEventListener("click", () => goTo(index - 1));
+    root.querySelector("[data-next]")!.addEventListener("click", () => goTo(index + 1));
+    dots.forEach((d, i) => d.addEventListener("click", () => goTo(i)));
+
+    playBtn.addEventListener("click", () => {
+      playing = !playing;
+      root.dataset.playing = String(playing);
+      playBtn.setAttribute(
+        "aria-label",
+        playing ? "Pause automatic rotation" : "Resume automatic rotation",
+      );
+      schedule();
+    });
+
+    root.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); goTo(index + 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); goTo(index - 1); }
+    });
+
+    root.addEventListener("pointerenter", (e) => {
+      if ((e as PointerEvent).pointerType === "mouse") { hovering = true; schedule(); }
+    });
+    root.addEventListener("pointerleave", (e) => {
+      if ((e as PointerEvent).pointerType === "mouse") { hovering = false; schedule(); }
+    });
+    root.addEventListener("focusin", () => { hovering = true; schedule(); });
+    root.addEventListener("focusout", (e) => {
+      const next = (e as FocusEvent).relatedTarget as Node | null;
+      if (!next || !root.contains(next)) { hovering = false; schedule(); }
+    });
+
+    // Native swipe and trackpad scrolling move the track without going through
+    // goTo(), so read the settled position back into the index.
+    let raf = 0, settleTimer = 0;
+    track.addEventListener("scroll", () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(settleTimer);
+      raf = requestAnimationFrame(() => {
+        settleTimer = window.setTimeout(() => {
+          const i = Math.round(track.scrollLeft / (track.clientWidth || 1));
+          const clamped = Math.min(Math.max(i, 0), n - 1);
+          if (clamped !== index) { index = clamped; paint(); }
+        }, 120);
+      });
+    }, { passive: true });
+
+    window.addEventListener("resize", () => {
+      track.scrollLeft = index * track.clientWidth;
+    });
+
+    root.dataset.playing = "true";
+    paint();
+    schedule();
+  }
+</script>
