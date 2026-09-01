@@ -40,6 +40,8 @@ const faq = defineCollection({
           // consistency that drifts once several people edit the file.
           q: z.string().min(1).endsWith("?"),
           a: z.string().min(1),
+          /** Present on the three questions the homepage surfaces. */
+          homeOrder: z.number().int().positive().optional(),
         }),
       )
       .min(1),
@@ -135,4 +137,55 @@ const publications = defineCollection({
   }),
 });
 
-export const collections = { team, faq, services, articles, publications };
+const projects = defineCollection({
+  loader: file("src/content/projects.json"),
+  schema: z.object({
+    order: z.number().int().positive(),
+    name: z.string().min(1),
+    desc: z.string().min(1),
+    domain: z.enum(["organization", "program-project", "people"]),
+    status: z.enum(["active", "founding-team", "coming-soon"]),
+    image: z.string().startsWith("/assets/"),
+    /** Present on the six records the homepage surfaces. */
+    homeOrder: z.number().int().positive().optional(),
+  }),
+});
+
+const featured = defineCollection({
+  loader: file("src/content/featured.json"),
+  schema: z.object({
+    order: z.number().int().positive(),
+    client: z.string().min(1),
+    engagement: z.string().min(1),
+    label: z.string().min(1),
+    image: z.string().startsWith("/assets/"),
+  }),
+});
+
+/**
+ * Client logos. `name` is optional because there is no source for it: the
+ * files are numbered 1..26 and no institution names appear anywhere in the
+ * codebase. That is honest rather than harmful — the marquee is a single
+ * role="img" region with a summary label and the images carry alt="", which is
+ * correct for decorative marks. Fill `name` in and the alt text improves.
+ */
+const clients = defineCollection({
+  loader: file("src/content/clients.json"),
+  schema: z.object({
+    order: z.number().int().positive(),
+    logo: z.string().startsWith("/assets/"),
+    name: z.string().min(1).optional(),
+    url: z.string().url().optional(),
+  }),
+});
+
+export const collections = {
+  team,
+  faq,
+  services,
+  articles,
+  publications,
+  projects,
+  featured,
+  clients,
+};

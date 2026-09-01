@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 
 /**
  * Phase 1.5 foundation. Astro now owns src/pages/; the legacy React page
@@ -34,5 +35,21 @@ export default defineConfig({
     },
   },
 
-  integrations: [react()],
+  // Replaces scripts/generate-sitemap.mjs, which maintained its own hand-written
+  // list of routes alongside the real ones.
+  integrations: [
+    react(),
+    sitemap({
+      // @astrojs/sitemap does not read build.format, so it emits
+      // https://immersia.id/about while the page it describes is
+      // /about.html. Every entry would have pointed at a URL that does not
+      // exist. Put the extension back.
+      serialize(item) {
+        const root = "https://immersia.id/";
+        if (item.url === root) return item;
+        item.url = `${item.url.replace(/\/$/, "")}.html`;
+        return item;
+      },
+    }),
+  ],
 });

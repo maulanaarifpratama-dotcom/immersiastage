@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../layouts/PageLayout.astro";
+import Icon from "../components/Icon.jsx";
+
+// Sorted by the Insight NNN label until a real pubDate exists to sort on.
+const articles = (await getCollection("articles")).sort((a, b) =>
+  a.data.label.localeCompare(b.data.label),
+);
+---
+
+<PageLayout
+  metaKey="news.html"
+  label="News &amp; articles"
+  title="Learning from evidence and practice."
+>
+  <section>
+    <div class="wrap three">
+      {
+        articles.map(({ id, data: a }) => (
+          <a class="article" href={`/${id}.html`}>
+            <img loading="lazy" src={a.card.image} alt="" width="360" height="190" />
+            <div>
+              <small>{a.label}</small>
+              <h2>{a.title}</h2>
+              <p>{a.lead}</p>
+              <span class="more">
+                Read Article
+                <Icon name="arrowRight" size={17} />
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</PageLayout>

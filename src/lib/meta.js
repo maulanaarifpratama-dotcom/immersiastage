@@ -1,80 +1,23 @@
 import { useEffect } from "react";
 import { articles } from "../data/articles";
 import { publications } from "../data/publications";
+import {
+  SITE_URL,
+  SITE_NAME,
+  DEFAULT_DESCRIPTION,
+  pageMeta,
+  NOT_FOUND,
+} from "./page-meta.js";
 
-export const SITE_URL = "https://immersia.id";
-export const SITE_NAME = "Immersia";
+export { SITE_URL, SITE_NAME };
+
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.jpg`;
 
-const DEFAULT_DESCRIPTION =
-  "Immersia helps institutions design, measure, and strengthen impact programs with evidence, systems, and capability connected to practical decisions.";
-
 /**
- * Every route used to share one <title> and one description, because the app
- * is a single-page build and nothing ever updated the document head. Search
- * engines and link previews saw twelve identical pages.
+ * Legacy Vite SPA only. The Astro build imports ./page-meta.js directly, which
+ * has no path to src/data/*, so the two article copies cannot both reach a
+ * rendered page.
  */
-const pageMeta = {
-  "index.html": {
-    title: "Immersia — Strategic Impact Advisory",
-    description: DEFAULT_DESCRIPTION,
-  },
-  "about.html": {
-    title: "About Immersia",
-    description:
-      "Immersia is an impact advisory and capacity-building firm working across organization, program, and people domains in Indonesia and Southeast Asia.",
-  },
-  "services.html": {
-    title: "Services",
-    description:
-      "Three service domains: Integrated Impact Advisory for organizations, Modular Impact Services for programs and projects, and Impact Capacity Building for people.",
-  },
-  "integrated-advisory.html": {
-    title: "Integrated Impact Advisory",
-    description:
-      "Impact architecture, M&E system development, implementation support, and grant support for institutions that need impact built into how they operate.",
-  },
-  "modular-services.html": {
-    title: "Modular Impact Services",
-    description:
-      "Baseline research, program design, program evaluation, and impact assessment delivered as standalone assignments or a connected sequence.",
-  },
-  "impact-lab.html": {
-    title: "Impact Capacity Building",
-    description:
-      "Immersia Impact Lab builds practical MEAL, research, and project management capability through facilitated practice, mentoring, and institutional application.",
-  },
-  "project-records.html": {
-    title: "Project Records",
-    description:
-      "Representative Immersia engagements across organization, program and project, and people domains, including SROI, MSC, CSI, and OECD-DAC studies.",
-  },
-  "news.html": {
-    title: "News & Articles",
-    description:
-      "Practical writing on baseline and feasibility studies, M&E systems, impact assessment methods, MEAL capacity, and Theory of Change.",
-  },
-  "publications.html": {
-    title: "Publications",
-    description:
-      "Representative reports and knowledge products from Immersia's advisory portfolio, including SROI, impact, and community satisfaction studies.",
-  },
-  "team.html": {
-    title: "Team",
-    description:
-      "The advisory, business development, marketing, and operations leadership behind Immersia's practice.",
-  },
-  "faq.html": {
-    title: "FAQ",
-    description:
-      "Common questions about Immersia's service domains, methodology selection, deliverables, delivery formats, and how to request a proposal.",
-  },
-  "request-proposal.html": {
-    title: "Request Proposal",
-    description:
-      "Tell Immersia what your institution needs to strengthen and the team will follow up to clarify scope, methodology, and deliverables.",
-  },
-};
 
 function truncate(text, max = 175) {
   if (!text || text.length <= max) return text;
@@ -109,14 +52,7 @@ export function resolveMeta(key) {
     };
   }
 
-  return {
-    key,
-    title: "Page not found",
-    description:
-      "The page you were looking for is not available on immersia.id.",
-    type: "website",
-    noindex: true,
-  };
+  return { ...NOT_FOUND, key };
 }
 
 function setTag(selector, attrs) {

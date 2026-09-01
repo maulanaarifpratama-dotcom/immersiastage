@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../layouts/PageLayout.astro";
+import Icon from "../components/Icon.jsx";
+
+const pubs = (await getCollection("publications")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<PageLayout
+  metaKey="publications.html"
+  label="Publications"
+  title="Evidence translated into practical knowledge products."
+>
+  <section>
+    <div class="wrap three">
+      {
+        pubs.map(({ id, data: p }) => (
+          <article class="pub">
+            <img loading="lazy" src={p.cover} alt={`Cover of ${p.title}`} />
+            <div>
+              <small>{p.label}</small>
+              <h2>{p.title}</h2>
+              <p>
+                Representative publication from Immersia&rsquo;s advisory
+                portfolio.
+              </p>
+              <a href={`/${id}.html`}>
+                <span>
+                  View Publication
+                  <span class="visually-hidden">: {p.title}</span>
+                </span>
+                <Icon name="arrowRight" size={17} />
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</PageLayout>

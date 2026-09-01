@@ -754,6 +754,17 @@ section {
   transform: scale(0.92);
 }
 
+/* Both icons ship; the playing state picks one. */
+[data-carousel] .i-play {
+  display: none;
+}
+[data-carousel][data-playing="false"] .i-pause {
+  display: none;
+}
+[data-carousel][data-playing="false"] .i-play {
+  display: block;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .heroctl button:hover {
     background: #2a2e30e6;

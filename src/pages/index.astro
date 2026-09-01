@@ -1,0 +1,361 @@
+---
+/**
+ * Homepage. Every list on this page reads from a collection — the SPA version
+ * carried six hardcoded arrays (slides, logos, records, insights, pubs, team,
+ * faqs), each a second copy of data that already existed somewhere else.
+ *
+ * Two of those copies had drifted from the canonical project records, which is
+ * exactly what duplication does over time. Both now resolve to the collection:
+ *   - YBM BRILiaN used ybm1.webp here, ybm2.webp in the project record
+ *   - SEAHUM was labelled "People" here, "organization" in the project record
+ */
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroCarousel from "../components/HeroCarousel.astro";
+import ExecCta from "../components/astro/ExecCta.astro";
+import Icon from "../components/Icon.jsx";
+
+const byOrder = (a: any, b: any) => a.data.order - b.data.order;
+
+const services = (await getCollection("services")).sort(byOrder);
+const clients = (await getCollection("clients")).sort(byOrder);
+const team = (await getCollection("team")).sort(byOrder);
+
+const records = (await getCollection("projects"))
+  .filter((p) => p.data.homeOrder)
+  .sort((a, b) => a.data.homeOrder! - b.data.homeOrder!);
+
+const insights = (await getCollection("articles"))
+  .sort((a, b) => a.data.label.localeCompare(b.data.label))
+  .slice(0, 3);
+
+const pubs = (await getCollection("publications")).sort(byOrder).slice(0, 3);
+
+const faqs = (await getCollection("faq"))
+  .flatMap((g) => g.data.items)
+  .filter((i) => i.homeOrder)
+  .sort((a, b) => a.homeOrder! - b.homeOrder!);
+
+const DOMAIN_LABEL: Record<string, string> = {
+  organization: "Organization",
+  "program-project": "Program / Project",
+  people: "People",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Immersia",
+  url: "https://immersia.id",
+  logo: "https://immersia.id/assets/brand/logo.png",
+  description:
+    "Immersia helps institutions design, measure, and strengthen impact programs with evidence, systems, and capability connected to practical decisions.",
+  email: "info@immersia.id",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Jl. Sepat No.43, Kebagusan, Pasar Minggu",
+    addressLocality: "Jakarta Selatan",
+    postalCode: "12520",
+    addressCountry: "ID",
+  },
+  sameAs: [
+    "https://www.instagram.com/immersia.id",
+    "https://www.linkedin.com/company/immers-asia",
+  ],
+};
+---
+
+<BaseLayout metaKey="index.html" jsonLd={jsonLd}>
+  <HeroCarousel />
+
+  <section class="white">
+    <div class="wrap split">
+      <div>
+        <small>Who we are</small>
+        <h2>Closing the gap between analysis and action.</h2>
+        <p class="lead">
+          Immersia operates at the intersection of research, design, and
+          organizational development.
+        </p>
+      </div>
+      <img
+        loading="lazy"
+        src="/assets/photos/practice1.webp"
+        alt="Immersia facilitators working with a partner organization"
+        width="560"
+        height="380"
+      />
+    </div>
+  </section>
+
+  <section class="why-matters">
+    <div class="wrap">
+      <div class="why-head">
+        <div>
+          <small>Why it matters</small>
+          <h2>Most organizations know what they want to achieve.</h2>
+          <p class="why-subtitle">
+            Few have the systems to prove it, or sustain it.
+          </p>
+        </div>
+        <img
+          loading="lazy"
+          src="/assets/photos/general27.webp"
+          alt="Participants in an Immersia capacity-building session"
+          width="440"
+          height="300"
+        />
+      </div>
+      <div class="why-grid">
+        <article>
+          <span>01</span>
+          <h3>Programs designed without evidence</h3>
+          <p>
+            Interventions built on assumptions rather than baseline realities
+            lead to misaligned efforts and resources spent on the wrong
+            problems.
+          </p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Impact measured but not acted on</h3>
+          <p>
+            Evaluation reports produced on schedule but rarely translated into
+            decisions, learning, or real adjustments to program direction.
+          </p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Capacity that does not transfer</h3>
+          <p>
+            Training delivered without embedding into day-to-day practice leaves
+            organizations permanently dependent on external support.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="navy">
+    <div class="wrap">
+      <small>What we do</small>
+      <h2>Three domains. One connected impact system.</h2>
+      <div class="three">
+        {
+          services.map(({ id, data: s }) => (
+            <article class="service">
+              <img loading="lazy" src={s.cardImage} alt="" width="360" height="190" />
+              <div>
+                <small>{s.label}</small>
+                <h3>{s.title}</h3>
+                <p>{s.summary}</p>
+                <a href={`/${id}.html`}>
+                  Explore Service
+                  <Icon name="arrowRight" size={17} />
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="white">
+    <div class="wrap">
+      <div class="approachhead">
+        <div>
+          <small>Our approach</small>
+          <h2>Grounded insight. Actionable design. Lasting ownership.</h2>
+        </div>
+        <img
+          loading="lazy"
+          src="/assets/photos/general26.webp"
+          alt="Immersia team facilitating a validation workshop"
+          width="420"
+          height="230"
+        />
+      </div>
+      <div class="four approach">
+        <article>
+          <h3>Context First</h3>
+          <p>
+            Begin with actual capacity, stakeholders, constraints, and operating
+            conditions.
+          </p>
+        </article>
+        <article>
+          <h3>Research-Grounded</h3>
+          <p>Fit evidence approaches to the decision question and available data.</p>
+        </article>
+        <article>
+          <h3>Designed for Execution</h3>
+          <p>Account for ownership, timelines, systems, and operational reality.</p>
+        </article>
+        <article>
+          <h3>Systemic Continuity</h3>
+          <p>
+            Build frameworks and capabilities that remain usable after the
+            engagement.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust">
+    <div class="wrap">
+      <div class="stats">
+        <div><strong>15+</strong>Years of Methodological Practice</div>
+        <div><strong>23</strong>Cities and Regencies Covered</div>
+        <div><strong>3</strong>Domains of Engagement</div>
+      </div>
+      <small>Trusted across sectors</small>
+      <div
+        class="logowin"
+        role="img"
+        aria-label={`Logos of ${clients.length} client and partner institutions Immersia has worked with`}
+      >
+        <div class="logotrack" aria-hidden="true">
+          {clients.map(({ data: c }) => (
+            <div><img loading="lazy" src={c.logo} alt="" /></div>
+          ))}
+          {clients.map(({ data: c }) => (
+            <div><img loading="lazy" src={c.logo} alt="" /></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="white">
+    <div class="wrap">
+      <small>Selected project records</small>
+      <h2>Representative work across every domain.</h2>
+      <div class="three">
+        {
+          records.map(({ data: r }) => (
+            <article class="record">
+              <img loading="lazy" src={r.image} alt="" width="360" height="190" />
+              <div>
+                <small>{DOMAIN_LABEL[r.domain]}</small>
+                <h3>{r.name}</h3>
+                <p>{r.desc}</p>
+                <a href="/project-records.html">
+                  <span>
+                    View Record
+                    <span class="visually-hidden"> for {r.name}</span>
+                  </span>
+                  <Icon name="arrowRight" size={17} />
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <small>News &amp; articles</small>
+      <h2>Learning from evidence and practice.</h2>
+      <div class="three">
+        {
+          insights.map(({ id, data: a }) => (
+            <a class="article" href={`/${id}.html`}>
+              <img loading="lazy" src={a.card.image} alt="" width="360" height="190" />
+              <div>
+                <small>{a.label}</small>
+                <h3>{a.title}</h3>
+                <p>{a.excerpt ?? a.lead}</p>
+                <span class="more">
+                  Read Article
+                  <Icon name="arrowRight" size={17} />
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+      <p><a class="btn" href="/news.html">View All Articles</a></p>
+    </div>
+  </section>
+
+  <section class="white">
+    <div class="wrap">
+      <small>Selected publications</small>
+      <h2>Representative reports and knowledge products.</h2>
+      <div class="three">
+        {
+          pubs.map(({ id, data: p }) => (
+            <article class="pub">
+              <img loading="lazy" src={p.cover} alt={`Cover of ${p.title}`} />
+              <div>
+                <small>{p.label}</small>
+                <h3>{p.title}</h3>
+                <p>
+                  Representative publication from Immersia&rsquo;s advisory
+                  portfolio.
+                </p>
+                <a href={`/${id}.html`}>
+                  <span>
+                    View Publication
+                    <span class="visually-hidden">: {p.title}</span>
+                  </span>
+                  <Icon name="arrowRight" size={17} />
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <p><a class="btn" href="/publications.html">Explore Publications</a></p>
+    </div>
+  </section>
+
+  <section class="team">
+    <div class="wrap">
+      <small>Our team</small>
+      <h2>The people behind the practice.</h2>
+      <div class="four">
+        {
+          team.map(({ data: m }) => (
+            <a class="person" href="/team.html">
+              <div class="portrait">
+                <img loading="lazy" src={m.portrait} alt={`Portrait of ${m.name}`} />
+              </div>
+              <div>
+                <h3>{m.name}</h3>
+                <b>{m.role}</b>
+                <p>{m.bio}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div>
+        <small>FAQ</small>
+        <h2>Questions before starting an engagement?</h2>
+        <a class="btn" href="/faq.html">View All FAQs</a>
+      </div>
+      <div>
+        {
+          faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ExecCta />
+</BaseLayout>

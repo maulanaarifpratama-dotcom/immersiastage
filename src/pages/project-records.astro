@@ -1,0 +1,167 @@
+---
+/**
+ * Filtering needs JavaScript — the search box rules out a CSS-only version —
+ * but it does not need a framework. The whole interaction is: read three
+ * inputs, toggle `hidden` on 29 cards, update a count.
+ *
+ * All 29 records render into the static HTML. The filter narrows what is
+ * already there, so the page is complete and indexable before any script runs,
+ * and the empty state is reachable without one.
+ */
+import { getCollection } from "astro:content";
+import PageLayout from "../layouts/PageLayout.astro";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const DOMAIN_LABEL: Record<string, string> = {
+  organization: "Organization",
+  "program-project": "Program / Project",
+  people: "People",
+};
+const STATUS_LABEL: Record<string, string> = {
+  active: "Active engagement",
+  "founding-team": "Founding Team Experience",
+  "coming-soon": "Coming Soon",
+};
+
+// Filters are derived from the records, so a control that could never match is
+// never rendered.
+const domains = [...new Set(projects.map((p) => p.data.domain))];
+const statuses = [...new Set(projects.map((p) => p.data.status))];
+---
+
+<PageLayout
+  metaKey="project-records.html"
+  label="Project records"
+  title="Evidence, systems, and capability in practice."
+  cta={false}
+>
+  <section>
+    <div class="wrap" data-records data-total={projects.length}>
+      <div class="filters" role="group" aria-label="Filter records">
+        <button type="button" aria-pressed="true" data-domain="all">
+          All domains
+        </button>
+        {
+          domains.map((d) => (
+            <button type="button" aria-pressed="false" data-domain={d}>
+              {DOMAIN_LABEL[d]}
+            </button>
+          ))
+        }
+
+        <label class="visually-hidden" for="status">Filter by status</label>
+        <select id="status" data-status>
+          <option value="all">All statuses</option>
+          {statuses.map((s) => <option value={s}>{STATUS_LABEL[s]}</option>)}
+        </select>
+
+        <label class="visually-hidden" for="search">
+          Search client or project
+        </label>
+        <input
+          id="search"
+          type="search"
+          placeholder="Search client or project"
+          data-search
+        />
+      </div>
+
+      <p class="filtercount" role="status" data-count>
+        {projects.length} records
+      </p>
+
+      <div class="emptystate" hidden data-empty>
+        <h2>No records match these filters.</h2>
+        <p>Try a different domain or status, or clear the search term.</p>
+        <button type="button" class="btn" data-clear>Clear all filters</button>
+      </div>
+
+      <div class="three" data-grid>
+        {
+          projects.map(({ data: p }) => (
+            <article
+              class={`project${p.status === "coming-soon" ? " soon" : ""}`}
+              data-domain={p.domain}
+              data-status={p.status}
+              data-text={`${p.name} ${p.desc} ${DOMAIN_LABEL[p.domain]}`.toLowerCase()}
+            >
+              {p.status === "coming-soon" && (
+                <span class="badge">Coming soon</span>
+              )}
+              <img loading="lazy" src={p.image} alt="" width="360" height="185" />
+              <div>
+                <small>{DOMAIN_LABEL[p.domain]}</small>
+                <h2>{p.name}</h2>
+                <p>{p.desc}</p>
+                {p.status === "founding-team" && (
+                  <em>{STATUS_LABEL[p.status]}</em>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-records]");
+
+  if (root) {
+    const cards = [...root.querySelectorAll<HTMLElement>(".project")];
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("[data-domain]")];
+    const select = root.querySelector<HTMLSelectElement>("[data-status]")!;
+    const search = root.querySelector<HTMLInputElement>("[data-search]")!;
+    const countEl = root.querySelector<HTMLElement>("[data-count]")!;
+    const empty = root.querySelector<HTMLElement>("[data-empty]")!;
+    const grid = root.querySelector<HTMLElement>("[data-grid]")!;
+    const total = Number(root.dataset.total);
+
+    let domain = "all";
+
+    const apply = () => {
+      const q = search.value.trim().toLowerCase();
+      const status = select.value;
+      let shown = 0;
+
+      for (const card of cards) {
+        const ok =
+          (domain === "all" || card.dataset.domain === domain) &&
+          (status === "all" || card.dataset.status === status) &&
+          (!q || card.dataset.text!.includes(q));
+        card.hidden = !ok;
+        if (ok) shown++;
+      }
+
+      countEl.textContent =
+        shown === total ? `${total} records` : `${shown} of ${total} records`;
+      empty.hidden = shown !== 0;
+      grid.hidden = shown === 0;
+    };
+
+    for (const b of buttons) {
+      b.addEventListener("click", () => {
+        domain = b.dataset.domain!;
+        for (const x of buttons)
+          x.setAttribute("aria-pressed", String(x === b));
+        apply();
+      });
+    }
+
+    select.addEventListener("change", apply);
+    search.addEventListener("input", apply);
+
+    root.querySelector("[data-clear]")!.addEventListener("click", () => {
+      domain = "all";
+      for (const x of buttons)
+        x.setAttribute("aria-pressed", String(x.dataset.domain === "all"));
+      select.value = "all";
+      search.value = "";
+      apply();
+    });
+  }
+</script>

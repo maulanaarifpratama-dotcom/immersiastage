@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://immersia.id/sitemap.xml
+Sitemap: https://immersia.id/sitemap-index.xml

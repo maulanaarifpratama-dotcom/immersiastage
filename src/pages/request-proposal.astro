@@ -1,0 +1,232 @@
+---
+/**
+ * Behaviour is unchanged from the audited React form: labels above inputs,
+ * inline errors that name the problem and the fix, focus moved to the first
+ * bad field, and a submit that composes a pre-filled mail message. Still no
+ * backend, as instructed.
+ *
+ * The form markup is fully static, so it renders and submits nothing until the
+ * script attaches. `novalidate` is set by the script rather than in the markup:
+ * with JS off, the browser's own required-field validation stays in charge
+ * instead of nothing at all.
+ */
+import PageLayout from "../layouts/PageLayout.astro";
+
+const FIELDS = [
+  { name: "organization", label: "Organization name", type: "text", autocomplete: "organization", required: true },
+  { name: "contact", label: "Contact person", type: "text", autocomplete: "name", required: true },
+  { name: "email", label: "Work email", type: "email", autocomplete: "email", required: true },
+  { name: "phone", label: "Phone or WhatsApp", type: "tel", autocomplete: "tel", required: false },
+];
+
+const SERVICES = [
+  "Integrated Impact Advisory",
+  "Modular Impact Services",
+  "Impact Capacity Building",
+  "Not sure yet",
+];
+---
+
+<PageLayout
+  metaKey="request-proposal.html"
+  label="Request proposal"
+  title="Tell us what you need to strengthen."
+  cta={false}
+>
+  <section>
+    <div class="wrap form">
+      <form data-proposal action="mailto:info@immersia.id" method="post">
+        {
+          FIELDS.map((f) => (
+            <div class="field">
+              <label for={`f-${f.name}`}>
+                {f.label}
+                {!f.required && <span class="hint"> (optional)</span>}
+              </label>
+              <input
+                id={`f-${f.name}`}
+                name={f.name}
+                type={f.type}
+                autocomplete={f.autocomplete}
+                required={f.required || undefined}
+              />
+              <p class="errortext" id={`e-${f.name}`} hidden>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.75v5M12 16.1h.01"></path></svg>
+                <span></span>
+              </p>
+            </div>
+          ))
+        }
+
+        <div class="field wide">
+          <label for="f-service">Service of interest</label>
+          <select id="f-service" name="service">
+            {SERVICES.map((s) => <option>{s}</option>)}
+          </select>
+        </div>
+
+        <div class="field wide">
+          <label for="f-challenge">Background or challenge</label>
+          <p class="hint" id="h-challenge">
+            What decision or problem is this work meant to support?
+          </p>
+          <textarea
+            id="f-challenge"
+            name="challenge"
+            required
+            aria-describedby="h-challenge"></textarea>
+          <p class="errortext" id="e-challenge" hidden>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.75v5M12 16.1h.01"></path></svg>
+            <span></span>
+          </p>
+        </div>
+
+        <div class="field wide">
+          <label for="f-outputs">
+            Expected outputs<span class="hint"> (optional)</span>
+          </label>
+          <textarea id="f-outputs" name="outputs"></textarea>
+        </div>
+
+        <div class="formfoot">
+          <button class="btn gold" type="submit">Prepare Proposal Request</button>
+          <p class="formnote">
+            This opens a pre-filled email to info@immersia.id in your own mail
+            app. Nothing is stored on this site.
+          </p>
+        </div>
+      </form>
+
+      <div class="formsuccess" hidden data-success>
+        <h2>Check your mail app</h2>
+        <p>
+          A pre-filled message to <strong>info@immersia.id</strong> has been
+          opened in your mail application. Send it and the Immersia team will
+          follow up to clarify scope, methodology, and deliverables.
+        </p>
+        <p>
+          If nothing opened, email
+          <a href="mailto:info@immersia.id"><strong>info@immersia.id</strong></a>
+          or message
+          <a href="https://wa.me/6281646035257" target="_blank" rel="noopener noreferrer">
+            <strong>+62 816-4603-5257</strong>
+          </a> directly.
+        </p>
+        <p>
+          <button type="button" class="btn" data-edit>Edit the request</button>
+        </p>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-proposal]");
+
+  if (form) {
+    // Only once the script is attached does JS take over validation.
+    form.noValidate = true;
+
+    const success = document.querySelector<HTMLElement>("[data-success]")!;
+    const wrap = form.parentElement!;
+    let submitted = false;
+
+    const RULES: Record<string, (v: string) => string | null> = {
+      organization: (v) => (v.trim() ? null : "Enter the name of your organization."),
+      contact: (v) => (v.trim() ? null : "Enter the name of the person we should reply to."),
+      email: (v) =>
+        !v.trim()
+          ? "Enter an email address so we can respond."
+          : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())
+            ? null
+            : "That email address does not look complete.",
+      challenge: (v) =>
+        v.trim() ? null : "Describe the background or challenge, even in one or two sentences.",
+    };
+
+    const field = (name: string) =>
+      form.querySelector<HTMLInputElement | HTMLTextAreaElement>(`#f-${name}`)!;
+    const errorBox = (name: string) =>
+      form.querySelector<HTMLElement>(`#e-${name}`)!;
+
+    // Remember each field's original describedby so the error id can be added
+    // and removed without accumulating duplicates.
+    const baseDescribedBy = new Map<string, string>();
+    for (const name of Object.keys(RULES))
+      baseDescribedBy.set(name, field(name).getAttribute("aria-describedby") ?? "");
+
+    const show = (name: string, message: string | null) => {
+      const el = field(name);
+      const box = errorBox(name);
+      box.hidden = !message;
+      box.querySelector("span")!.textContent = message ?? "";
+
+      const base = baseDescribedBy.get(name)!;
+      const ids = message ? [base, `e-${name}`].filter(Boolean).join(" ") : base;
+      if (ids) el.setAttribute("aria-describedby", ids);
+      else el.removeAttribute("aria-describedby");
+
+      if (message) el.setAttribute("aria-invalid", "true");
+      else el.removeAttribute("aria-invalid");
+    };
+
+    const validate = () => {
+      const bad: string[] = [];
+      for (const [name, rule] of Object.entries(RULES)) {
+        const message = rule(field(name).value);
+        show(name, submitted ? message : null);
+        if (message) bad.push(name);
+      }
+      return bad;
+    };
+
+    for (const name of Object.keys(RULES))
+      field(name).addEventListener("input", () => submitted && validate());
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitted = true;
+      const bad = validate();
+      if (bad.length) {
+        field(bad[0]).focus();
+        return;
+      }
+
+      const get = (n: string) =>
+        (form.querySelector<HTMLInputElement>(`#f-${n}`)?.value ?? "").trim();
+
+      const body = [
+        `Organization: ${get("organization")}`,
+        `Contact person: ${get("contact")}`,
+        `Email: ${get("email")}`,
+        get("phone") ? `Phone / WhatsApp: ${get("phone")}` : null,
+        `Service of interest: ${get("service")}`,
+        "",
+        "Background or challenge:",
+        get("challenge"),
+        "",
+        "Expected outputs:",
+        get("outputs") || "(not specified)",
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      window.location.href =
+        "mailto:info@immersia.id" +
+        `?subject=${encodeURIComponent(`Proposal request: ${get("organization")}`)}` +
+        `&body=${encodeURIComponent(body)}`;
+
+      form.hidden = true;
+      success.hidden = false;
+      success.querySelector("h2")!.focus?.();
+      wrap.scrollIntoView({ block: "start" });
+    });
+
+    success.querySelector("[data-edit]")!.addEventListener("click", () => {
+      success.hidden = true;
+      form.hidden = false;
+      submitted = false;
+      validate();
+    });
+  }
+</script>

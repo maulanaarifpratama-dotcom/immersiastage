@@ -2,13 +2,15 @@
 /**
  * Renders the head at BUILD time from the same data the SPA writes at runtime.
  *
- * `resolveMeta`, `SITE_URL` and `SITE_NAME` are imported from the existing
- * src/lib/meta.js unchanged — the metadata structure is reused, only the
- * mechanism that writes it changes. In the SPA that file's useDocumentMeta()
- * mutates document.head after React mounts; here the same resolved object is
- * interpolated into static HTML that a crawler sees without running any JS.
+ * The metadata structure is reused from the SPA; only the mechanism that
+ * writes it changes. There, useDocumentMeta() mutates document.head after
+ * React mounts; here the same resolved object is interpolated into static HTML
+ * that a crawler sees without running any JS.
+ *
+ * It reads src/lib/page-meta.js rather than src/lib/meta.js so the Astro build
+ * has no import path to src/data/*, which still backs the legacy SPA.
  */
-import { resolveMeta, SITE_URL, SITE_NAME } from "../lib/meta.js";
+import { resolvePageMeta, SITE_URL, SITE_NAME } from "../lib/page-meta.js";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.jsx";
 import "../styles/site.css";
@@ -37,7 +39,7 @@ const {
   jsonLd = null,
 } = Astro.props;
 
-const meta = resolveMeta(metaKey);
+const meta = resolvePageMeta(metaKey);
 const path = metaKey === "index.html" ? "/" : `/${metaKey}`;
 const url = `${SITE_URL}${path}`;
 
