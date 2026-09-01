@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../layouts/PageLayout.astro";
+
+const team = (await getCollection("team")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<PageLayout
+  metaKey="team.html"
+  label="Our team"
+  title="The people behind the practice."
+>
+  <section class="team">
+    <div class="wrap">
+      {
+        team.map(({ data: m }) => (
+          <article class="profile">
+            <div class="portrait">
+              <img loading="lazy" src={m.portrait} alt={`Portrait of ${m.name}`} />
+            </div>
+            <div>
+              <small>{m.role}</small>
+              <h2>{m.name}</h2>
+              <p>{m.bio}</p>
+              <b>
+                Selected expertise and project exposure are based on the
+                approved CV review.
+              </b>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</PageLayout>

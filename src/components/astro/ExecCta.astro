@@ -1,0 +1,46 @@
+---
+/**
+ * Astro port of src/components/sections/ExecCta.jsx.
+ *
+ * Rewritten rather than reused because the React version imports
+ * react-router-dom's <Link>, which throws outside a Router during SSR. Markup,
+ * class names and copy are otherwise identical, so the rendered output matches
+ * the live page byte for byte apart from the anchor.
+ */
+---
+
+<section class="exec">
+  <div class="wrap execin">
+    <div>
+      <small>Executive discussion</small>
+      <h2>Let&rsquo;s discuss the strategic support your institution needs.</h2>
+      <p>
+        Immersia can help define the right scope, methodology, and deliverables.
+      </p>
+      <div class="actions">
+        <a class="btn gold" href="/request-proposal.html">Request Proposal</a>
+        <a class="btn ghost" href="mailto:info@immersia.id">
+          Schedule Strategic Discussion
+        </a>
+      </div>
+      <a
+        class="download"
+        href="/assets/documents/immersia-company-profile-2026.pdf"
+        download
+      >
+        <b>Download Company Profile</b>
+        <span>PDF | 2026 | File download</span>
+      </a>
+    </div>
+    <aside>
+      <small>What we&rsquo;ll discuss</small>
+      <ul>
+        <li>Mandate and operating context</li>
+        <li>Strategic decisions requiring support</li>
+        <li>Evidence, systems, and capabilities</li>
+        <li>Outputs and deliverables</li>
+        <li>Timeline and collaboration format</li>
+      </ul>
+    </aside>
+  </div>
+</section>

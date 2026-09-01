@@ -9,6 +9,7 @@
  * interpolated into static HTML that a crawler sees without running any JS.
  */
 import { resolveMeta, SITE_URL, SITE_NAME } from "../lib/meta.js";
+import Navigation from "../components/islands/Navigation.jsx";
 import Footer from "../components/Footer.jsx";
 import "../styles/site.css";
 
@@ -64,6 +65,18 @@ const fullTitle =
 
   <body>
     <a class="skiplink" href="#main">Skip to content</a>
+
+    {/*
+      The only hydrated island on these pages. Navigation carries the mobile
+      drawer and the two keyboard-operable submenus, so it needs client JS;
+      client:load rather than client:visible because it sits above the fold and
+      a visitor can reach for the menu before any observer fires.
+
+      Footer below has no directive, so it renders to static HTML at build time
+      and ships nothing.
+    */}
+    <Navigation client:load pathname={path} />
+
     <main id="main">
       <slot />
     </main>

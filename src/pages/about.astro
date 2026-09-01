@@ -1,27 +1,20 @@
 ---
 /**
- * Spike target. Copy and class names are taken verbatim from
- * src/pages/AboutPage.jsx so the rendered page is comparable to the live one.
+ * Migrated to the final structure: PageLayout supplies the head, navigation,
+ * page hero and executive CTA, so this file carries only the About content.
  *
- * Existing React components are imported and rendered WITHOUT a client:*
- * directive, so Astro executes them at build time and emits plain HTML — no
- * React is shipped to the browser. That is the "REUSE AS-IS" claim from the
- * phase 0 blueprint, tested rather than asserted.
- *
- * ExecCta is deliberately absent: it imports react-router-dom's <Link>, which
- * throws outside a Router during SSR. That is the "MINOR ADAPTATION" tier, and
- * it is out of scope for this spike.
+ * The spike version composed BaseLayout by hand and had no navigation and no
+ * CTA. Both are back, and nothing here depends on Vite or react-router any
+ * more. Copy and class names remain verbatim from src/views/AboutPage.jsx.
  */
-import BaseLayout from "../layouts/BaseLayout.astro";
-import PageHero from "../components/sections/PageHero.jsx";
+import PageLayout from "../layouts/PageLayout.astro";
 ---
 
-<BaseLayout metaKey="about.html">
-  <PageHero
-    label="About Immersia"
-    title="Evidence that moves into decisions, systems, and action."
-  />
-
+<PageLayout
+  metaKey="about.html"
+  label="About Immersia"
+  title="Evidence that moves into decisions, systems, and action."
+>
   <section class="white">
     <div class="wrap split">
       <img
@@ -127,4 +120,4 @@ import PageHero from "../components/sections/PageHero.jsx";
       </div>
     </div>
   </section>
-</BaseLayout>
+</PageLayout>

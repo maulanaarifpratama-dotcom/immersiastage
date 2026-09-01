@@ -1,0 +1,39 @@
+---
+/**
+ * The shape every inner page shares: page hero, content, executive CTA.
+ *
+ * This is the migration pattern the rest of the site will follow — a page file
+ * supplies only its own middle, and never repeats the head, nav, hero or CTA.
+ * In the SPA each of the fifteen page components imported and rendered PageHero
+ * and ExecCta itself, which is why a change to either meant touching fifteen
+ * files.
+ *
+ * PageHero is the existing React component, rendered without a client:*
+ * directive, so it becomes static HTML at build time.
+ */
+import BaseLayout from "./BaseLayout.astro";
+import PageHero from "../components/sections/PageHero.jsx";
+import ExecCta from "../components/astro/ExecCta.astro";
+
+interface Props {
+  /** Route key as used by src/lib/meta.js, e.g. "team.html". */
+  metaKey: string;
+  /** Gold eyebrow above the page title. */
+  label: string;
+  /** The <h1>. */
+  title: string;
+  /**
+   * Set false on pages that close with their own section instead of the
+   * standard executive CTA.
+   */
+  cta?: boolean;
+}
+
+const { metaKey, label, title, cta = true } = Astro.props;
+---
+
+<BaseLayout metaKey={metaKey}>
+  <PageHero label={label} title={title} />
+  <slot />
+  {cta && <ExecCta />}
+</BaseLayout>

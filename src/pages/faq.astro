@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/sections/PageHero.jsx";
+import ExecCta from "../components/astro/ExecCta.astro";
+
+const groups = (await getCollection("faq")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+{/*
+  Not PageLayout: the FAQ body sits inside `.wrap.faqpage` rather than the
+  standard `<section>` rhythm, so it composes BaseLayout directly. Kept
+  deliberately, because forcing it into the shared layout would change the
+  spacing the live page already has.
+*/}
+<BaseLayout metaKey="faq.html">
+  <PageHero label="FAQ" title="Before working with Immersia." />
+
+  <div class="wrap faqpage">
+    {
+      groups.map(({ data: group }) => (
+        <section class="faqgroup">
+          <h2>{group.title}</h2>
+          {group.items.map((item) => (
+            <details>
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))}
+        </section>
+      ))
+    }
+  </div>
+
+  <ExecCta />
+</BaseLayout>
