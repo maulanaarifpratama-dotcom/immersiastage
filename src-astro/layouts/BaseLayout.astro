@@ -1,0 +1,70 @@
+---
+/**
+ * Renders the head at BUILD time from the same data the SPA writes at runtime.
+ *
+ * `resolveMeta`, `SITE_URL` and `SITE_NAME` are imported from the existing
+ * src/lib/meta.js unchanged — the metadata structure is reused, only the
+ * mechanism that writes it changes. In the SPA that file's useDocumentMeta()
+ * mutates document.head after React mounts; here the same resolved object is
+ * interpolated into static HTML that a crawler sees without running any JS.
+ */
+import { resolveMeta, SITE_URL, SITE_NAME } from "../../src/lib/meta.js";
+import Footer from "../../src/components/Footer.jsx";
+import "../../src/styles/site.css";
+
+interface Props {
+  /** Route key as used by the SPA, e.g. "about.html". */
+  metaKey: string;
+}
+
+const { metaKey } = Astro.props;
+
+const meta = resolveMeta(metaKey);
+const path = metaKey === "index.html" ? "/" : `/${metaKey}`;
+const url = `${SITE_URL}${path}`;
+const image = meta.image || `${SITE_URL}/og-image.jpg`;
+const fullTitle =
+  meta.key === "index.html" ? meta.title : `${meta.title} — ${SITE_NAME}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={url} />
+    <meta name="robots" content={meta.noindex ? "noindex, follow" : "index, follow"} />
+    <meta name="theme-color" content="#31444d" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/assets/fonts/inter-latin.woff2"
+      crossorigin
+    />
+
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:type" content={meta.type} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content={image} />
+  </head>
+
+  <body>
+    <a class="skiplink" href="#main">Skip to content</a>
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

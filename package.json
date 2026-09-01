@@ -14,10 +14,15 @@
     "optimize:images": "node scripts/optimize-images.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "sitemap": "node scripts/generate-sitemap.mjs"
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "dev:astro": "astro dev",
+    "build:astro": "astro build",
+    "preview:astro": "astro preview"
   },
   "dependencies": {
+    "@astrojs/react": "^6.0.5",
     "@vitejs/plugin-react": "6.0.3",
+    "astro": "^7.2.10",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "react-router-dom": "^7.18.1",
