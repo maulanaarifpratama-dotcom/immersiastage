@@ -80,7 +80,11 @@ if (kind === "article") {
   const p = entry.data;
   meta = {
     title: p.title,
-    description: `${p.label}. Representative publication from Immersia's advisory portfolio.`,
+    // The label repeats across publications ("SROI Study | 2025" twice,
+    // "Community Satisfaction | 2025" twice), so a description built from it
+    // alone gave four pages two descriptions. The title is what distinguishes
+    // them.
+    description: `${p.title}. ${p.label}. Representative publication from Immersia's advisory portfolio.`,
     image: `${SITE_URL}${p.cover}`,
   };
   jsonLd = {
