@@ -293,17 +293,6 @@ describe("indonesian archive", () => {
     expect(new Set(heads.map(description)).size).toBe(archivePages.length);
   });
 
-  it.each(archiveArticles)("%s has exactly one h1 and skips no level", (file) => {
-    const html = read(file);
-    const levels = [...html.matchAll(/<h([1-6])[\s>]/g)].map((m) => +m[1]);
-    expect(levels.filter((l) => l === 1)).toHaveLength(1);
-    expect(levels[0]).toBe(1);
-    // WordPress emitted no heading elements at all here -- every section title
-    // was bold text -- so the conversion promotes that one level to h2. If it
-    // ever lands on h3 the document skips a level for a screen reader.
-    for (const l of levels.slice(1)) expect(l).toBeLessThanOrEqual(2);
-  });
-
   it("serves no archived asset from web.archive.org", () => {
     // The pages were recovered from the archive; they must not depend on it.
     for (const file of archivePages)
@@ -380,6 +369,39 @@ describe("archive redirects", () => {
     for (const r of redirects) expect(r.source).toMatch(/^\/[a-z0-9-]+$/);
   });
 });
+
+/* ------------------------------------------------------------ headings */
+
+/**
+ * Heading order, on every built page.
+ *
+ * This started as an archive-only check, which is exactly why it missed a real
+ * one: services.html ran h1 -> h3 for its three cards and then h2 for the CTA,
+ * so the outline both skipped a level and inverted. It only surfaced in a
+ * post-launch crawl of production. A guard that covers one directory is a
+ * guard that covers one directory.
+ */
+describe.each(allPages.filter((p) => p !== "404.html"))(
+  "%s heading order",
+  (file) => {
+    const levels = [...read(file).matchAll(/<h([1-6])[\s>]/g)].map((m) => +m[1]);
+
+    it("has exactly one h1, and it comes first", () => {
+      expect(levels.filter((l) => l === 1)).toHaveLength(1);
+      expect(levels[0]).toBe(1);
+    });
+
+    it("never skips a level", () => {
+      const skips = [];
+      let deepest = levels[0] ?? 1;
+      for (const l of levels.slice(1)) {
+        if (l > deepest + 1) skips.push(`h${deepest} -> h${l}`);
+        deepest = Math.max(deepest, l);
+      }
+      expect(skips).toEqual([]);
+    });
+  },
+);
 
 /* ------------------------------------------------------------------- 404 */
 

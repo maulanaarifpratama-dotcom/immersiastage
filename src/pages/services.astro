@@ -21,7 +21,12 @@ const services = (await getCollection("services")).sort(
             <img loading="lazy" src={s.cardImage} alt="" width="360" height="190" />
             <div>
               <small>{s.label}</small>
-              <h3>{s.title}</h3>
+              {/* h2, not h3: these cards are the page's top-level sections and
+                  they sit above the CTA's own h2, so h3 both skipped a level
+                  and inverted the outline. Every other card page — publications,
+                  project records, news — already uses h2 here, and the styling
+                  is written as `.service :is(h2, h3, h4)`, so nothing moves. */}
+              <h2>{s.title}</h2>
               <p>{s.summary}</p>
               <a href={`/${id}.html`}>
                 Explore Service
