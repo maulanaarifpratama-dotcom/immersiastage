@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import ContentPage from "../pages/ContentPage";
-import { getPageComponent } from "../pages/index";
+import ContentPage from "../views/ContentPage";
+import { getPageComponent } from "../views/index";
 import { resolveMeta } from "../lib/meta";
 
 function renderAt(path) {

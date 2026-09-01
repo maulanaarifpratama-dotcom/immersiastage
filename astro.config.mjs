@@ -3,29 +3,36 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 
 /**
- * SPIKE CONFIG — Astro migration, phase 1.
+ * Phase 1.5 foundation. Astro now owns src/pages/; the legacy React page
+ * components moved to src/views/ so the two routers cannot collide.
  *
- * Deliberately isolated from the live Vite app so both can build from one
- * checkout:
- *   srcDir  ./src-astro   because src/pages/ already holds the React page
- *                         components, and Astro would treat every one of them
- *                         as a route.
- *   outDir  ./dist-astro  because `vite build` owns ./dist.
- *
- * Neither of these is the intended end state. See the report.
+ * outDir stays separate from Vite's ./dist for as long as both stacks are
+ * alive. vercel.json points the deployment at this directory explicitly, so
+ * framework auto-detection never has to guess between vite and astro.
  */
 export default defineConfig({
   site: "https://immersia.id",
   output: "static",
 
-  srcDir: "./src-astro",
   outDir: "./dist-astro",
-  publicDir: "./public",
 
-  // The whole point of the spike. Every live URL ends in `.html`; Astro's
-  // default (`directory`) would emit dist/about/index.html and serve /about/.
+  // Every live URL ends in `.html`. Astro's default (`directory`) would emit
+  // dist/about/index.html and serve /about/, breaking all 23 indexed URLs.
+  // Verified in the phase 1 spike, not assumed.
   build: { format: "file" },
   trailingSlash: "never",
+
+  // Scaffolding only. With prefixDefaultLocale false, English pages keep their
+  // current paths and nothing is generated for `id` until src/pages/id/ exists.
+  // Articles stay single-language by staying outside that tree.
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "id"],
+    routing: {
+      prefixDefaultLocale: false,
+      redirectToDefaultLocale: false,
+    },
+  },
 
   integrations: [react()],
 });

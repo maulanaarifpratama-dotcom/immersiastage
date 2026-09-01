@@ -8,9 +8,9 @@
  * mutates document.head after React mounts; here the same resolved object is
  * interpolated into static HTML that a crawler sees without running any JS.
  */
-import { resolveMeta, SITE_URL, SITE_NAME } from "../../src/lib/meta.js";
-import Footer from "../../src/components/Footer.jsx";
-import "../../src/styles/site.css";
+import { resolveMeta, SITE_URL, SITE_NAME } from "../lib/meta.js";
+import Footer from "../components/Footer.jsx";
+import "../styles/site.css";
 
 interface Props {
   /** Route key as used by the SPA, e.g. "about.html". */
@@ -35,7 +35,9 @@ const fullTitle =
 
     <title>{fullTitle}</title>
     <meta name="description" content={meta.description} />
-    <link rel="canonical" href={url} />
+    {/* A noindex page gets no canonical: pointing search engines at a URL we
+        are simultaneously telling them to ignore is a contradiction. */}
+    {!meta.noindex && <link rel="canonical" href={url} />}
     <meta name="robots" content={meta.noindex ? "noindex, follow" : "index, follow"} />
     <meta name="theme-color" content="#31444d" />
 

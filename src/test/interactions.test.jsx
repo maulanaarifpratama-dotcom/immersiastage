@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import HeroCarousel from "../components/HeroCarousel";
-import RequestProposalPage from "../pages/RequestProposalPage";
+import RequestProposalPage from "../views/RequestProposalPage";
 
 const slides = [
   { bg: "/a.webp", label: "Featured", title: "Alpha", subtitle: "One" },
@@ -152,7 +152,7 @@ describe("Project records filter", () => {
   it("shows a recoverable empty state when nothing matches", async () => {
     const user = userEvent.setup();
     const { default: ProjectRecordsPage } = await import(
-      "../pages/ProjectRecordsPage"
+      "../views/ProjectRecordsPage"
     );
     render(
       <MemoryRouter>
