@@ -9,23 +9,44 @@
  * interpolated into static HTML that a crawler sees without running any JS.
  */
 import { resolveMeta, SITE_URL, SITE_NAME } from "../lib/meta.js";
-import Navigation from "../components/islands/Navigation.jsx";
+import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.jsx";
 import "../styles/site.css";
 
 interface Props {
-  /** Route key as used by the SPA, e.g. "about.html". */
+  /** Route key as used by src/lib/meta.js, e.g. "about.html". */
   metaKey: string;
+  /**
+   * Content-driven pages pass their own metadata instead of looking it up.
+   * Articles and publications now come from collections, so resolveMeta()'s
+   * copy of that data is no longer the source of truth for them.
+   */
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+  jsonLd?: Record<string, unknown> | null;
 }
 
-const { metaKey } = Astro.props;
+const {
+  metaKey,
+  title: titleOverride,
+  description: descOverride,
+  image: imageOverride,
+  type: typeOverride,
+  jsonLd = null,
+} = Astro.props;
 
 const meta = resolveMeta(metaKey);
 const path = metaKey === "index.html" ? "/" : `/${metaKey}`;
 const url = `${SITE_URL}${path}`;
-const image = meta.image || `${SITE_URL}/og-image.jpg`;
+
+const baseTitle = titleOverride ?? meta.title;
+const description = descOverride ?? meta.description;
+const image = imageOverride ?? meta.image ?? `${SITE_URL}/og-image.jpg`;
+const ogType = typeOverride ?? meta.type;
 const fullTitle =
-  meta.key === "index.html" ? meta.title : `${meta.title} — ${SITE_NAME}`;
+  metaKey === "index.html" ? baseTitle : `${baseTitle} — ${SITE_NAME}`;
 ---
 
 <!doctype html>
@@ -35,7 +56,7 @@ const fullTitle =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>{fullTitle}</title>
-    <meta name="description" content={meta.description} />
+    <meta name="description" content={description} />
     {/* A noindex page gets no canonical: pointing search engines at a URL we
         are simultaneously telling them to ignore is a contradiction. */}
     {!meta.noindex && <link rel="canonical" href={url} />}
@@ -53,14 +74,23 @@ const fullTitle =
 
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={meta.description} />
-    <meta property="og:type" content={meta.type} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={url} />
     <meta property="og:image" content={image} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
+
+    {
+      jsonLd && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(jsonLd)}
+        />
+      )
+    }
   </head>
 
   <body>
@@ -75,7 +105,7 @@ const fullTitle =
       Footer below has no directive, so it renders to static HTML at build time
       and ships nothing.
     */}
-    <Navigation client:load pathname={path} />
+    <Navigation pathname={path} />
 
     <main id="main">
       <slot />

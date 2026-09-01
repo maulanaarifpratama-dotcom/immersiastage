@@ -377,6 +377,18 @@ nav[data-scrolled="true"] {
   transform: scale(0.94);
 }
 
+/* Both icons are in the markup; the open state picks one. The React version
+   swapped them on render, which a static page has no opportunity to do. */
+#menu .i-close {
+  display: none;
+}
+#menu[aria-expanded="true"] .i-menu {
+  display: none;
+}
+#menu[aria-expanded="true"] .i-close {
+  display: block;
+}
+
 #links {
   display: flex;
   gap: 4px;
@@ -1409,10 +1421,28 @@ details p {
   margin-top: 10px;
 }
 
-.references li {
+.references li,
+.articlebody.has-refs .prose > ul:last-of-type li {
   padding-left: 1.25rem;
   text-indent: -1.25rem;
   margin: 0.55rem 0;
+}
+
+/* Markdown renders a flat stream of h2/p/ul, where the SPA wrapped every
+   section in its own <section>. These reproduce that vertical rhythm without
+   the wrapper, so the article body reads the same. */
+.articlebody .prose h2 {
+  font-size: clamp(1.6rem, 2.4vw, 2.05rem);
+  line-height: 1.2;
+  margin: 46px 0 18px;
+}
+
+.articlebody .prose > :first-child {
+  margin-top: 0;
+}
+
+.articlebody .prose ul {
+  margin: 0 0 20px;
 }
 
 .articlecta {

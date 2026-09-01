@@ -1,0 +1,250 @@
+---
+/**
+ * OPTION B for the phase 3 runtime decision: the same navigation, rendered as
+ * static HTML with a small vanilla enhancement script instead of a React
+ * island.
+ *
+ * Every behaviour from the audited React version is carried over deliberately:
+ *   - real <button aria-expanded> submenu triggers (keyboard reachable)
+ *   - Escape closes the submenu first, then the drawer, restoring focus
+ *   - pointerdown outside the nav closes everything
+ *   - hover opens on fine pointers, with click/hover source tracking so a
+ *     hover-opened menu is not immediately toggled shut by the click
+ *   - focus leaving the submenu closes it
+ *   - aria-current="page" on the active link
+ *   - data-scrolled border once the page has scrolled
+ *
+ * The menu/close icons are both rendered and swapped in CSS, because there is
+ * no render pass to swap them in.
+ */
+interface Props {
+  /** Current path, e.g. "/team.html". Used for aria-current. */
+  pathname: string;
+}
+
+const { pathname } = Astro.props;
+
+const menus = [
+  {
+    id: "services",
+    label: "Services",
+    items: [
+      { to: "/services.html", label: "All Services" },
+      { to: "/integrated-advisory.html", label: "Integrated Impact Advisory" },
+      { to: "/modular-services.html", label: "Modular Impact Services" },
+      { to: "/impact-lab.html", label: "Impact Capacity Building" },
+    ],
+  },
+  {
+    id: "work",
+    label: "Work & Insights",
+    items: [
+      { to: "/project-records.html", label: "Project Records" },
+      { to: "/news.html", label: "News & Articles" },
+    ],
+  },
+];
+
+const links = [
+  { to: "/", label: "Home" },
+  { to: "/about.html", label: "About" },
+];
+
+const tail = [
+  { to: "/publications.html", label: "Publications" },
+  { to: "/team.html", label: "Team" },
+  { to: "/faq.html", label: "FAQ" },
+];
+
+const current = (to: string) => (pathname === to ? "page" : undefined);
+---
+
+<nav aria-label="Primary" data-scrolled="false">
+  <div class="wrap ni">
+    <a class="navlogo" href="/" aria-label="Immersia — home">
+      <img
+        src="/assets/brand/logo.webp"
+        alt="Immersia"
+        width="150"
+        height="46"
+        fetchpriority="high"
+      />
+    </a>
+
+    <button
+      id="menu"
+      type="button"
+      aria-expanded="false"
+      aria-controls="links"
+      aria-label="Open menu"
+    >
+      <svg
+        class="i-menu"
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.9"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M3.5 7h17M3.5 12h17M3.5 17h17"></path>
+      </svg>
+      <svg
+        class="i-close"
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.9"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+
+    <div id="links">
+      {
+        links.map((l) => (
+          <a href={l.to} aria-current={current(l.to)}>
+            {l.label}
+          </a>
+        ))
+      }
+
+      {
+        menus.map((m) => (
+          <span class="dd" data-menu={m.id} data-open="false">
+            <button type="button" aria-expanded="false" aria-controls={`dd-${m.id}`}>
+              {m.label}
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m6 9.5 6 6 6-6" />
+              </svg>
+            </button>
+            <i id={`dd-${m.id}`}>
+              {m.items.map((item) => (
+                <a href={item.to} aria-current={current(item.to)}>
+                  {item.label}
+                </a>
+              ))}
+            </i>
+          </span>
+        ))
+      }
+
+      {
+        tail.map((l) => (
+          <a href={l.to} aria-current={current(l.to)}>
+            {l.label}
+          </a>
+        ))
+      }
+
+      <a
+        class="proposal"
+        href="/request-proposal.html"
+        aria-current={current("/request-proposal.html")}
+      >
+        Request Proposal
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const nav = document.querySelector<HTMLElement>("nav[aria-label='Primary']");
+  if (nav) {
+    const toggle = nav.querySelector<HTMLButtonElement>("#menu")!;
+    const drawer = nav.querySelector<HTMLElement>("#links")!;
+    const dds = [...nav.querySelectorAll<HTMLElement>(".dd")];
+
+    // Mirrors the React version's { id, source } state. Without the source we
+    // cannot tell a hover-opened menu from a click-opened one, and the click
+    // that follows a hover closes the menu the hover just opened.
+    let openId: string | null = null;
+    let openSource: "hover" | "click" | null = null;
+
+    const setDrawer = (open: boolean) => {
+      drawer.classList.toggle("open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+
+    const setDd = (id: string | null, source: "hover" | "click" | null) => {
+      openId = id;
+      openSource = source;
+      for (const dd of dds) {
+        const on = dd.dataset.menu === id;
+        dd.dataset.open = String(on);
+        dd.querySelector("button")!.setAttribute("aria-expanded", String(on));
+      }
+    };
+
+    const canHover = () =>
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+      window.innerWidth > 950;
+
+    toggle.addEventListener("click", () =>
+      setDrawer(toggle.getAttribute("aria-expanded") !== "true"),
+    );
+
+    for (const dd of dds) {
+      const id = dd.dataset.menu!;
+      dd.querySelector("button")!.addEventListener("click", () => {
+        if (openId === id && openSource === "click") setDd(null, null);
+        else setDd(id, "click");
+      });
+      dd.addEventListener("pointerenter", (e) => {
+        if ((e as PointerEvent).pointerType === "mouse" && canHover())
+          setDd(id, "hover");
+      });
+      dd.addEventListener("pointerleave", (e) => {
+        // A click-opened submenu stays put; it closes on Escape, on blur, or
+        // on a pointer press outside the nav.
+        if ((e as PointerEvent).pointerType === "mouse" && canHover())
+          if (openSource === "hover") setDd(null, null);
+      });
+      dd.addEventListener("focusout", (e) => {
+        const next = (e as FocusEvent).relatedTarget as Node | null;
+        if (!next || !dd.contains(next)) setDd(null, null);
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (openId) {
+        setDd(null, null);
+      } else if (toggle.getAttribute("aria-expanded") === "true") {
+        setDrawer(false);
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener("pointerdown", (e) => {
+      if (nav.contains(e.target as Node)) return;
+      setDrawer(false);
+      setDd(null, null);
+    });
+
+    const onScroll = () => {
+      nav.dataset.scrolled = String(window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>
