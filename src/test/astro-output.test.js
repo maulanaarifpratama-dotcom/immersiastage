@@ -336,26 +336,60 @@ describe("indonesian archive", () => {
   });
 });
 
-describe("archive redirects", () => {
+const REDIRECT_COUNTS = { archive: ARCHIVE_COUNT, legacy: 26 };
+
+describe("redirects", () => {
   const cfg = JSON.parse(readFileSync(path.resolve("vercel.json"), "utf8"));
   const redirects = cfg.redirects ?? [];
+  const toArchive = redirects.filter((r) =>
+    r.destination.startsWith("/id/insights/"),
+  );
+  const toLivePage = redirects.filter(
+    (r) => !r.destination.startsWith("/id/insights/"),
+  );
+  /** dist-relative path a destination resolves to. */
+  const fileFor = (d) => (d === "/" ? "index.html" : d.slice(1));
 
-  it("declares one permanent redirect per restored article", () => {
-    expect(redirects).toHaveLength(ARCHIVE_COUNT);
+  it("declares the expected number of each kind", () => {
+    expect(toArchive).toHaveLength(REDIRECT_COUNTS.archive);
+    expect(toLivePage).toHaveLength(REDIRECT_COUNTS.legacy);
+    expect(redirects).toHaveLength(
+      REDIRECT_COUNTS.archive + REDIRECT_COUNTS.legacy,
+    );
+  });
+
+  it("makes every redirect permanent", () => {
+    // 301 rather than Vercel's default 307/308: these say the old URL is gone
+    // for good, which is what passes the accumulated signal along.
     for (const r of redirects) expect(r.statusCode).toBe(301);
   });
 
   it("sends every old URL to a page the build actually produced", () => {
     for (const r of redirects)
-      expect(existsSync(path.join(DIST, r.destination))).toBe(true);
+      expect(existsSync(path.join(DIST, fileFor(r.destination)))).toBe(true);
   });
 
   it("covers every restored article exactly once", () => {
-    const destinations = redirects.map((r) => r.destination.slice(1));
+    const destinations = toArchive.map((r) => r.destination.slice(1));
     expect(new Set(destinations)).toEqual(new Set(archiveArticles));
+    expect(destinations).toHaveLength(new Set(destinations).size);
   });
 
-  it("never shadows a live page", () => {
+  it("points the recovered WordPress URLs at live, indexable pages", () => {
+    // A recovered URL that landed on the noindex archive would hand its
+    // accumulated signal to a page we are telling crawlers to ignore.
+    for (const r of toLivePage) {
+      expect(pages).toContain(fileFor(r.destination));
+      expect(robots(headOf(fileFor(r.destination)))).toBe("index, follow");
+    }
+  });
+
+  it("declares each source once", () => {
+    const sources = redirects.map((r) => r.source);
+    expect(new Set(sources).size).toBe(sources.length);
+  });
+
+  it("never shadows a page the build produced", () => {
     // A redirect whose source matched a live URL would take that page off the
     // site silently -- it still builds, it just stops being reachable.
     for (const r of redirects) {
@@ -364,9 +398,22 @@ describe("archive redirects", () => {
     }
   });
 
+  it("never redirects to something that redirects again", () => {
+    const sources = new Set(redirects.map((r) => r.source));
+    const chained = redirects.filter((r) =>
+      sources.has(r.destination.replace(/\.html$/, "")),
+    );
+    expect(chained).toEqual([]);
+  });
+
   it("writes sources in the form trailingSlash:false produces", () => {
+    // Vercel normalises /profile/ to /profile with a 308 before any rule is
+    // evaluated, so a rule written with the trailing slash never matches.
     expect(cfg.trailingSlash).toBe(false);
-    for (const r of redirects) expect(r.source).toMatch(/^\/[a-z0-9-]+$/);
+    for (const r of redirects) {
+      expect(r.source).toMatch(/^\/(?:[a-z0-9-]+)(?:\/[a-z0-9-]+)*$/);
+      expect(r.source.endsWith("/")).toBe(false);
+    }
   });
 });
 

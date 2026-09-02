@@ -100,6 +100,136 @@
       "source": "/strategic-mapping-cara-menyusun-arah-program-sosial-yang-lebih-terarah-dan-berdampak",
       "destination": "/id/insights/strategic-mapping-cara-menyusun-arah-program-sosial-yang-lebih-terarah-dan-berdampak.html",
       "statusCode": 301
+    },
+    {
+      "source": "/profile",
+      "destination": "/about.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/profile",
+      "destination": "/about.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/contact",
+      "destination": "/request-proposal.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/contact",
+      "destination": "/request-proposal.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/projek",
+      "destination": "/project-records.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/project",
+      "destination": "/project-records.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/produk-pengetahuan",
+      "destination": "/publications.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/knowladge-product",
+      "destination": "/publications.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/blog",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/capability-themes",
+      "destination": "/services.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/capability-themes",
+      "destination": "/services.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/capacity-building-programs",
+      "destination": "/impact-lab.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/capacity-building-programs",
+      "destination": "/impact-lab.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/hands-on-consulting",
+      "destination": "/integrated-advisory.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/hands-on-consulting",
+      "destination": "/integrated-advisory.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/monitoring-evaluasi-pembelajaran",
+      "destination": "/integrated-advisory.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/monitoring-evaluation-learning",
+      "destination": "/integrated-advisory.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/annual-sustainability-and-project-reporting",
+      "destination": "/integrated-advisory.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/annual-sustainability-and-project-reporting",
+      "destination": "/integrated-advisory.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/desain-program-dampak",
+      "destination": "/modular-services.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/program-impact-design",
+      "destination": "/modular-services.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/analisis-baseline-konteks",
+      "destination": "/modular-services.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en/baseline-context-analysis",
+      "destination": "/modular-services.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/penilaian-dampak-pembelajaran-strategis",
+      "destination": "/modular-services.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/en",
+      "destination": "/",
+      "statusCode": 301
     }
   ]
 }
