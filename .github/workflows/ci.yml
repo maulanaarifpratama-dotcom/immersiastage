@@ -1,0 +1,63 @@
+name: CI
+
+# Runs the same checks a developer runs before pushing, so that they also run
+# when nobody remembers to. Vercel's build command is `astro build` alone --
+# it never runs eslint or the test suite -- so until now the 398 assertions
+# were enforced only by habit. That holds while every commit comes from someone
+# who runs them locally, and stops holding the moment a CMS lets an editor
+# commit. This is the gate that has to exist first.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A superseded run tells you nothing. Cancel it and keep the newest.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: lint, build, test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches Vercel's current default runtime. CI exists to catch what
+          # would break production, so it should run production's Node, not
+          # whatever is newest.
+          node-version: "22"
+          cache: npm
+
+      # `npm ci` rather than `npm install`: it installs exactly what
+      # package-lock.json pins and fails if the lockfile and package.json have
+      # drifted apart, which is the determinism this whole job depends on.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # This step MUST come before the test suite. src/test/astro-output.test.js
+      # asserts over the contents of dist-astro/ and throws on a missing
+      # directory, so on a fresh checkout `npm test` reports 24 of 398 tests and
+      # one failed suite. Building first is what makes the other 374 run at all.
+      - name: Build (Astro — the production site)
+        run: npx astro build
+
+      - name: Test
+        run: npm test
+
+      # The legacy Vite SPA is still in the tree as the cutover rollback path.
+      # It is not deployed, but it has to keep building, or the rollback stops
+      # being one revert and becomes a repair job.
+      - name: Build (Vite — legacy SPA, kept as the rollback path)
+        run: npm run build
