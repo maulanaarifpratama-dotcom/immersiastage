@@ -1,0 +1,90 @@
+---
+/**
+ * Disclaimer.
+ *
+ * Deliberately short. It exists because an advisory firm publishes method
+ * material that readers may act on, and because proposal conversations should
+ * not be mistaken for commitments. Everything broader -- intellectual
+ * property, acceptable use, governing law -- lives in Terms of Use rather than
+ * being restated here.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/sections/PageHero.jsx";
+
+const EFFECTIVE = "[TO BE CONFIRMED — publication date]";
+---
+
+<BaseLayout
+  metaKey="disclaimer.html"
+  title="Disclaimer"
+  description="Material published by Immersia is general professional information, not advice for a specific organization or decision, and proposal discussions are not binding until a written agreement is signed."
+>
+  <PageHero label="Legal" title="Disclaimer" />
+
+  <article class="articlebody">
+    <p class="lead">
+      What we publish here is professional material of general application. It
+      is written to be useful to think with, not to substitute for judgment
+      about a particular organization, program, or decision.
+    </p>
+
+    <div class="prose">
+      <p>Effective {EFFECTIVE}.</p>
+
+      <h2>Informational nature</h2>
+      <p>
+        Our articles, publications, and service pages describe methods,
+        frameworks, and approaches used in impact practice. They are general
+        information. They are not professional advice for your organization, and
+        reading them does not create an advisory relationship with Immersia.
+      </p>
+      <p>
+        Before acting on anything here, consider whether it fits your context —
+        or ask us, so we can look at that context with you.
+      </p>
+
+      <h2>No guarantee of outcomes</h2>
+      <p>
+        Descriptions of past engagements record what was done. They are not
+        predictions. Impact work depends on the program, the participants, the
+        institutions involved, and conditions no method controls, so a result
+        achieved in one engagement is not a commitment for another.
+      </p>
+      <p>
+        We do not warrant that applying any framework described on this site
+        will produce a particular result.
+      </p>
+
+      <h2>Proposal discussions are not binding</h2>
+      <p>
+        Sending a proposal request, receiving our reply, or discussing possible
+        work does not commit either side to anything. Scope, method, timeline,
+        deliverables, and fees become binding only in a written agreement signed
+        by Immersia and the client.
+      </p>
+
+      <h2>External links</h2>
+      <p>
+        This site links to WhatsApp, Instagram, and LinkedIn. We do not control
+        those services and are not responsible for their content or practices.
+        A link is not an endorsement.
+      </p>
+
+      <h2>Archived material</h2>
+      <p>
+        Some material on this site is kept as a record of what was published
+        earlier and is not maintained. Where that is the case, the page says so
+        and gives its original publication date. Read it as history, not as our
+        current position.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about anything on this page: <a href="mailto:info@immersia.id"
+          >info@immersia.id</a
+        >. See also our <a href="/terms-of-use.html">Terms of Use</a> and
+        <a href="/privacy-policy.html">Privacy Policy</a>.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

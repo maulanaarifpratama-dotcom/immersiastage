@@ -35,12 +35,14 @@ const LEGACY_URLS = [
   "article-building-practical-meal-capacity.html",
   "article-choose-impact-assessment-method.html",
   "article-theory-of-change-program-design.html",
+  "disclaimer.html",
   "faq.html",
   "impact-lab.html",
   "index.html",
   "integrated-advisory.html",
   "modular-services.html",
   "news.html",
+  "privacy-policy.html",
   "project-records.html",
   "publication-1.html",
   "publication-2.html",
@@ -52,6 +54,7 @@ const LEGACY_URLS = [
   "request-proposal.html",
   "services.html",
   "team.html",
+  "terms-of-use.html",
 ];
 
 const ARTICLE_COUNT = 5;

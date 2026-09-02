@@ -104,8 +104,17 @@ export default function Footer() {
         </div>
       </div>
 
+      {/*
+        Legal links sit on the existing copyright line rather than in a fourth
+        footer column: .footergrid is a three-column template, and a fourth
+        child would change the layout. They inherit .copyright's colour because
+        the global rule is `a { color: inherit }`.
+      */}
       <p className="wrap copyright">
-        &copy; 2026 Immersia. All rights reserved.
+        &copy; 2026 Immersia. All rights reserved. &middot;{" "}
+        <a href="/privacy-policy.html">Privacy Policy</a> &middot;{" "}
+        <a href="/terms-of-use.html">Terms of Use</a> &middot;{" "}
+        <a href="/disclaimer.html">Disclaimer</a>
       </p>
     </footer>
   );

@@ -1,0 +1,203 @@
+---
+/**
+ * Privacy Policy.
+ *
+ * Every factual statement here was verified against the built output and
+ * against production before it was written. The site sets no cookies, loads no
+ * third-party script, writes nothing to browser storage, and receives no form
+ * submission -- so this page says that plainly rather than reaching for the
+ * usual generated boilerplate, which described cookie categories, service
+ * providers and social logins that do not exist here.
+ *
+ * Metadata is passed to BaseLayout directly rather than added to
+ * src/lib/page-meta.js. resolvePageMeta() returns its not-found record for any
+ * key it does not know, and BaseLayout only treats that as noindex when the
+ * page supplies no title of its own. Passing one keeps this page indexable and
+ * self-canonical without touching the fixed-page table.
+ *
+ * Items no code can answer are marked [TO BE CONFIRMED]. They are business
+ * facts, not technical ones, and inventing them would reintroduce exactly the
+ * problem this page replaces.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/sections/PageHero.jsx";
+
+const EFFECTIVE = "[TO BE CONFIRMED — publication date]";
+---
+
+<BaseLayout
+  metaKey="privacy-policy.html"
+  title="Privacy Policy"
+  description="How Immersia handles information on this website: no cookies, no analytics, no browser storage, and a proposal form that composes an email in your own mail application rather than sending data to us."
+>
+  <PageHero label="Legal" title="Privacy Policy" />
+
+  <article class="articlebody">
+    <p class="lead">
+      This website is a static site. It sets no cookies, runs no analytics,
+      stores nothing in your browser, and receives no form submissions. This
+      page explains what that means in practice, and what happens to the
+      information you choose to send us by email.
+    </p>
+
+    <div class="prose">
+      <p>Effective {EFFECTIVE}.</p>
+
+      <h2>Who we are</h2>
+      <p>
+        Immersia is an impact advisory and capacity-building firm. Our office is
+        at Jl. Sepat No.43, Kebagusan, Ps. Minggu, Jakarta Selatan 12520,
+        Indonesia.
+      </p>
+      <p>
+        Registered legal entity name: <strong>[TO BE CONFIRMED]</strong>.
+        Registered legal address, if it differs from the office address above:
+        <strong>[TO BE CONFIRMED]</strong>.
+      </p>
+      <p>
+        For anything in this policy, write to <a href="mailto:info@immersia.id"
+          >info@immersia.id</a
+        >.
+      </p>
+
+      <h2>What this website collects: nothing</h2>
+      <p>
+        Reading this website leaves no record with us. Specifically, and as a
+        matter of how the site is built:
+      </p>
+      <ul>
+        <li>
+          <strong>No cookies.</strong> The site sets no cookies of any kind, and
+          no cookie is required to read any page.
+        </li>
+        <li>
+          <strong>No analytics.</strong> There is no analytics or measurement
+          tool on this site. We do not count visits, sessions, page views, or
+          any other visitor metric.
+        </li>
+        <li>
+          <strong>No browser storage.</strong> Nothing is written to local
+          storage, session storage, or any in-browser database. Nothing is kept
+          on your device between visits.
+        </li>
+        <li>
+          <strong>No third-party scripts.</strong> No advertising, tracking,
+          social, chat, or measurement script is loaded. Every file the page
+          needs is served from immersia.id.
+        </li>
+        <li>
+          <strong>No embedded content.</strong> There are no embedded videos,
+          maps, calendars, or widgets from other services.
+        </li>
+      </ul>
+      <p>
+        Because there is nothing to consent to, this site shows no cookie
+        banner. If that ever changes, this page changes with it and the notice
+        will come before the change, not after.
+      </p>
+
+      <h2>The proposal form</h2>
+      <p>
+        The form on our <a href="/request-proposal.html">Request Proposal</a> page
+        does not send anything to us over the internet. When you press submit,
+        your browser assembles your answers into an email message and opens it
+        in your own mail application. Nothing is transmitted until you send that
+        message yourself, and you can edit or discard it first.
+      </p>
+      <p>
+        This means the form data never reaches a server of ours. There is no
+        database behind it and no submission is recorded anywhere on this site.
+      </p>
+      <p>The message your browser composes contains the fields you filled in:</p>
+      <ul>
+        <li>Organization name</li>
+        <li>Contact person</li>
+        <li>Work email</li>
+        <li>Phone or WhatsApp, if you provide it</li>
+        <li>Service of interest</li>
+        <li>Background or challenge</li>
+        <li>Expected outputs, if you provide them</li>
+      </ul>
+
+      <h2>Email you send us</h2>
+      <p>
+        Once you send that message — or write to us directly — it arrives in our
+        inbox at info@immersia.id. From that point it is ordinary business
+        correspondence. We use it to reply to you, to prepare a proposal if you
+        have asked for one, and to keep a record of the engagement.
+      </p>
+      <p>
+        We do not use it for marketing lists, and we do not sell or rent it.
+      </p>
+      <p>
+        Retention period for proposal correspondence:
+        <strong>[TO BE CONFIRMED]</strong>. Retention period for correspondence
+        that becomes part of a client engagement:
+        <strong>[TO BE CONFIRMED]</strong>.
+      </p>
+
+      <h2>Hosting and server logs</h2>
+      <p>
+        This website is hosted by Vercel. Like any hosting service, Vercel
+        receives the network requests your browser makes in order to serve the
+        pages back to you. Those requests carry your IP address and browser
+        information, which Vercel processes to deliver the site and to protect
+        it from abuse. This happens for every website you visit, on any host; it
+        is not something this site adds.
+      </p>
+      <p>
+        We do not read, analyse, or build profiles from those requests, and we
+        have no analytics layer on top of them. Vercel's own log retention:
+        <strong>[TO BE CONFIRMED — from Vercel's documentation for the plan in
+        use]</strong>.
+      </p>
+
+      <h2>Links to other services</h2>
+      <p>
+        Our pages link to WhatsApp, Instagram, and LinkedIn. Those are links,
+        not embeds: nothing is loaded from them while you read our site, and
+        nothing about your visit is shared with them unless you click through.
+      </p>
+      <p>
+        Once you follow such a link you are on someone else's service, under
+        their privacy policy and not ours.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        Because the website itself holds no information about you, rights of
+        access, correction, and deletion apply to the email correspondence we
+        hold — the messages you have sent us and our replies.
+      </p>
+      <p>
+        Write to <a href="mailto:info@immersia.id">info@immersia.id</a> to ask what
+        correspondence we hold, to have it corrected, or to have it deleted. We
+        may need to keep some records where we have a legal obligation to do so.
+      </p>
+      <p>
+        Applicable data protection law and the statutory basis for these rights:
+        <strong>[TO BE CONFIRMED — to be stated on legal review]</strong>.
+      </p>
+
+      <h2>Children</h2>
+      <p>
+        This website is addressed to organizations and their staff. It collects
+        nothing from anyone, including children.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If we change how this site works — for example by adding analytics, an
+        embedded service, or a form that submits to a server — we will update
+        this page before that change goes live, so that what it says stays true
+        of the site you are actually using.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Immersia, Jl. Sepat No.43, Kebagusan, Ps. Minggu, Jakarta Selatan 12520,
+        Indonesia. Email <a href="mailto:info@immersia.id">info@immersia.id</a>.
+      </p>
+    </div>
+  </article>
+</BaseLayout>
