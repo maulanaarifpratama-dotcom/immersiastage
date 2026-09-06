@@ -27,14 +27,17 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          # Matches Vercel's current default runtime. CI exists to catch what
-          # would break production, so it should run production's Node, not
-          # whatever is newest.
-          node-version: "22"
+          # Read off the Vercel project, not off Vercel's documented default:
+          # this project is pinned to 24.x, and an earlier version of this file
+          # said 22 on the strength of the general default. CI that runs a
+          # different runtime from production cannot vouch for production.
+          # package.json `engines` pins the same major so the two cannot drift
+          # apart again without npm saying so.
+          node-version: "24"
           cache: npm
 
       # `npm ci` rather than `npm install`: it installs exactly what

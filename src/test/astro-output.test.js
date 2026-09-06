@@ -339,7 +339,7 @@ describe("indonesian archive", () => {
   });
 });
 
-const REDIRECT_COUNTS = { archive: ARCHIVE_COUNT, legacy: 26 };
+const REDIRECT_COUNTS = { archive: ARCHIVE_COUNT, legacy: 35 };
 
 describe("redirects", () => {
   const cfg = JSON.parse(readFileSync(path.resolve("vercel.json"), "utf8"));

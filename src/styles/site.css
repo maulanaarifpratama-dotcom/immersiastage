@@ -1954,6 +1954,26 @@ footer {
   font-size: 0.9rem;
 }
 
+/* Legal links share the copyright line. Without this they inherit its colour
+   and carry no underline, so nothing distinguishes them from the sentence they
+   sit beside -- a link a reader cannot see is not a link. #ccd5d8 on #151819
+   is 9.4:1, and matches .contact, the footer's other link treatment. */
+.copyright a {
+  color: #ccd5d8;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: #ffffff59;
+  border-radius: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .copyright a:hover {
+    color: #fff;
+    text-decoration-color: currentColor;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Responsive
    -------------------------------------------------------------------------- */

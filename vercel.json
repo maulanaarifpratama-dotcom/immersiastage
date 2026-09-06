@@ -230,6 +230,51 @@
       "source": "/en",
       "destination": "/",
       "statusCode": 301
+    },
+    {
+      "source": "/category/framework-tools",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/category/impact-strategy",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/category/insight",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/category/news",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/category/program-design",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/author/admin",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/author/dasrilguntara",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/author/meira",
+      "destination": "/news.html",
+      "statusCode": 301
+    },
+    {
+      "source": "/author/syafiqbsy",
+      "destination": "/news.html",
+      "statusCode": 301
     }
   ]
 }
