@@ -2,42 +2,42 @@
 /**
  * Privacy Policy.
  *
- * Every factual statement here was verified against the built output and
- * against production before it was written. The site sets no cookies, loads no
- * third-party script, writes nothing to browser storage, and receives no form
- * submission -- so this page says that plainly rather than reaching for the
- * usual generated boilerplate, which described cookie categories, service
- * providers and social logins that do not exist here.
+ * Rewritten when Google Analytics was added. The earlier version was accurate
+ * for a site that set no cookies, loaded no third-party script and measured
+ * nothing -- it said so in as many words, which is exactly why it could not
+ * survive the tag. Sections that described the absence of analytics now
+ * describe what the analytics does.
+ *
+ * Every technical statement below was checked against the built output:
+ * gtag.js is on all 47 pages, the proposal form is still a mailto: that
+ * submits nothing to us, and Google is the only third party the browser
+ * contacts.
  *
  * Metadata is passed to BaseLayout directly rather than added to
  * src/lib/page-meta.js. resolvePageMeta() returns its not-found record for any
  * key it does not know, and BaseLayout only treats that as noindex when the
  * page supplies no title of its own. Passing one keeps this page indexable and
  * self-canonical without touching the fixed-page table.
- *
- * Items no code can answer are marked [TO BE CONFIRMED]. They are business
- * facts, not technical ones, and inventing them would reintroduce exactly the
- * problem this page replaces.
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/sections/PageHero.jsx";
 
-const EFFECTIVE = "[TO BE CONFIRMED — publication date]";
+const EFFECTIVE = "16 September 2026";
 ---
 
 <BaseLayout
   metaKey="privacy-policy.html"
   title="Privacy Policy"
-  description="How Immersia handles information on this website: no cookies, no analytics, no browser storage, and a proposal form that composes an email in your own mail application rather than sending data to us."
+  description="How PT. Immer Asia Corporation handles information on the Immersia website: what Google Analytics measures, the cookies it sets, the proposal form that composes an email in your own mail application, and your rights under Indonesian data protection law."
 >
   <PageHero label="Legal" title="Privacy Policy" />
 
   <article class="articlebody">
     <p class="lead">
-      This website is a static site. It sets no cookies, runs no analytics,
-      stores nothing in your browser, and receives no form submissions. This
-      page explains what that means in practice, and what happens to the
-      information you choose to send us by email.
+      This website is a set of static pages. It measures visits with Google
+      Analytics, loaded through Google Tag Manager, which sets cookies in your
+      browser. The proposal form sends nothing to us — it composes an email in
+      your own mail application. This page explains both.
     </p>
 
     <div class="prose">
@@ -45,56 +45,106 @@ const EFFECTIVE = "[TO BE CONFIRMED — publication date]";
 
       <h2>Who we are</h2>
       <p>
-        Immersia is an impact advisory and capacity-building firm. Our office is
-        at Jl. Sepat No.43, Kebagusan, Ps. Minggu, Jakarta Selatan 12520,
-        Indonesia.
+        <strong>PT. Immer Asia Corporation</strong>, trading as Immersia, is an
+        impact advisory and capacity-building firm. Our office is at Jl. Sepat
+        No.43, Kebagusan, Ps. Minggu, Jakarta Selatan 12520, Indonesia.
       </p>
       <p>
-        Registered legal entity name: <strong>[TO BE CONFIRMED]</strong>.
-        Registered legal address, if it differs from the office address above:
-        <strong>[TO BE CONFIRMED]</strong>.
-      </p>
-      <p>
+        We are the data controller for the information described on this page.
         For anything in this policy, write to <a href="mailto:info@immersia.id"
           >info@immersia.id</a
         >.
       </p>
 
-      <h2>What this website collects: nothing</h2>
+      <h2>Analytics and tag management</h2>
       <p>
-        Reading this website leaves no record with us. Specifically, and as a
-        matter of how the site is built:
+        We use Google Analytics 4 (measurement ID G-0RFC45PYLN) to understand
+        how the site is used — which pages are read, how visitors arrive, and
+        roughly where in the world they are. We use it to decide what to write
+        and what to fix. We do not use it to identify you, and we do not
+        combine it with anything else we hold.
+      </p>
+      <p>
+        Google Analytics runs on every page of this site and collects, among
+        other things:
       </p>
       <ul>
+        <li>Pages viewed, and the order and timing of those views</li>
+        <li>How you arrived — a search engine, a link, or a direct visit</li>
         <li>
-          <strong>No cookies.</strong> The site sets no cookies of any kind, and
-          no cookie is required to read any page.
+          Device and browser information, such as screen size, operating system,
+          and language
         </li>
         <li>
-          <strong>No analytics.</strong> There is no analytics or measurement
-          tool on this site. We do not count visits, sessions, page views, or
-          any other visitor metric.
-        </li>
-        <li>
-          <strong>No browser storage.</strong> Nothing is written to local
-          storage, session storage, or any in-browser database. Nothing is kept
-          on your device between visits.
-        </li>
-        <li>
-          <strong>No third-party scripts.</strong> No advertising, tracking,
-          social, chat, or measurement script is loaded. Every file the page
-          needs is served from immersia.id.
-        </li>
-        <li>
-          <strong>No embedded content.</strong> There are no embedded videos,
-          maps, calendars, or widgets from other services.
+          Approximate location, derived from your IP address at country or city
+          level. Google Analytics 4 does not log or store full IP addresses.
         </li>
       </ul>
       <p>
-        Because there is nothing to consent to, this site shows no cookie
-        banner. If that ever changes, this page changes with it and the notice
-        will come before the change, not after.
+        We also use Google Tag Manager (container GTM-TM9VB4ZQ) to load and
+        manage these measurement tags. Tag Manager is a container: what it
+        loads is configured in Google's console rather than written into this
+        website, so the set of tags on this site can change without the site
+        itself changing. If we add a tag that collects anything beyond what is
+        described here, we will update this page.
       </p>
+      <p>
+        Google LLC processes this data on our behalf, and that processing takes
+        place on Google's infrastructure, which is located outside Indonesia.
+        Google's own handling of the data is governed by its privacy policy at
+        <a
+          href="https://policies.google.com/privacy"
+          rel="noopener noreferrer"
+          target="_blank">policies.google.com/privacy</a
+        >.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        Google Analytics sets cookies in your browser so that repeat visits from
+        the same device are counted as one visitor rather than several. These
+        are named <code>_ga</code> and <code>_ga_&lt;container id&gt;</code>.
+        They contain a randomly generated identifier for the browser, not a name
+        or an email address.
+      </p>
+      <p>
+        These are the only cookies this site sets. Tag Manager itself sets
+        none. There are no advertising cookies, and nothing on this site is used
+        to build a profile of you or to target you elsewhere.
+      </p>
+      <p>
+        You can refuse or delete them in your browser's settings, or install
+        Google's own opt-out add-on at
+        <a
+          href="https://tools.google.com/dlpage/gaoptout"
+          rel="noopener noreferrer"
+          target="_blank">tools.google.com/dlpage/gaoptout</a
+        >. Refusing them does not affect anything you can read or do here.
+      </p>
+
+      <h2>What we do not do</h2>
+      <ul>
+        <li>
+          <strong>No advertising or tracking pixels.</strong> Google Analytics,
+          loaded through Google Tag Manager, is the only measurement tool on this
+          site, and Google is the only third party the page contacts.
+        </li>
+        <li>
+          <strong>No accounts.</strong> There is nothing to register for and no
+          password is ever asked for.
+        </li>
+        <li>
+          <strong>No selling or sharing.</strong> We do not sell your
+          information, rent it, or pass it to anyone for their own marketing.
+        </li>
+        <li>
+          <strong>No embedded content.</strong> There are no embedded videos,
+          maps, calendars, or widgets. The one frame on the page is Tag
+          Manager's fallback for browsers with JavaScript turned off: it is
+          hidden, has no content you can see or interact with, and does nothing
+          when JavaScript is on.
+        </li>
+      </ul>
 
       <h2>The proposal form</h2>
       <p>
@@ -130,10 +180,10 @@ const EFFECTIVE = "[TO BE CONFIRMED — publication date]";
         We do not use it for marketing lists, and we do not sell or rent it.
       </p>
       <p>
-        Retention period for proposal correspondence:
-        <strong>[TO BE CONFIRMED]</strong>. Retention period for correspondence
-        that becomes part of a client engagement:
-        <strong>[TO BE CONFIRMED]</strong>.
+        We keep correspondence for as long as the enquiry or the working
+        relationship it belongs to remains live, and afterwards for as long as
+        our records and legal obligations require. You can ask us to delete it
+        sooner; see <em>Your rights</em> below.
       </p>
 
       <h2>Hosting and server logs</h2>
@@ -142,14 +192,12 @@ const EFFECTIVE = "[TO BE CONFIRMED — publication date]";
         receives the network requests your browser makes in order to serve the
         pages back to you. Those requests carry your IP address and browser
         information, which Vercel processes to deliver the site and to protect
-        it from abuse. This happens for every website you visit, on any host; it
-        is not something this site adds.
+        it from abuse, and retains according to its own policy. This happens for
+        every website you visit, on any host; it is not something this site
+        adds.
       </p>
       <p>
-        We do not read, analyse, or build profiles from those requests, and we
-        have no analytics layer on top of them. Vercel's own log retention:
-        <strong>[TO BE CONFIRMED — from Vercel's documentation for the plan in
-        use]</strong>.
+        We do not read those logs, analyse them, or build profiles from them.
       </p>
 
       <h2>Links to other services</h2>
@@ -165,38 +213,46 @@ const EFFECTIVE = "[TO BE CONFIRMED — publication date]";
 
       <h2>Your rights</h2>
       <p>
-        Because the website itself holds no information about you, rights of
-        access, correction, and deletion apply to the email correspondence we
-        hold — the messages you have sent us and our replies.
+        Under Indonesia's Personal Data Protection Law (Undang-Undang No. 27 of
+        2022 on Pelindungan Data Pribadi), you may ask us for access to the
+        personal data we hold about you, ask us to correct it, ask us to delete
+        it, object to how we are using it, or withdraw consent you have given.
       </p>
       <p>
-        Write to <a href="mailto:info@immersia.id">info@immersia.id</a> to ask what
-        correspondence we hold, to have it corrected, or to have it deleted. We
-        may need to keep some records where we have a legal obligation to do so.
+        In practice this concerns two things: the email correspondence we hold —
+        the messages you have sent us and our replies — and the analytics data
+        described above.
       </p>
       <p>
-        Applicable data protection law and the statutory basis for these rights:
-        <strong>[TO BE CONFIRMED — to be stated on legal review]</strong>.
+        Write to <a href="mailto:info@immersia.id">info@immersia.id</a> to
+        exercise any of these. We may need to keep some records where we have a
+        legal obligation to do so, and we will say so if that applies.
       </p>
 
       <h2>Children</h2>
       <p>
-        This website is addressed to organizations and their staff. It collects
-        nothing from anyone, including children.
+        This website is addressed to organizations and their staff. We do not
+        knowingly collect personal data from children.
       </p>
 
       <h2>Changes to this policy</h2>
       <p>
-        If we change how this site works — for example by adding analytics, an
-        embedded service, or a form that submits to a server — we will update
+        If we change how this site works — by adding another measurement tool,
+        an embedded service, or a form that submits to a server — we will update
         this page before that change goes live, so that what it says stays true
-        of the site you are actually using.
+        of the site you are actually using. This page was last rewritten when
+        Google Analytics was added.
       </p>
 
       <h2>Contact</h2>
       <p>
-        Immersia, Jl. Sepat No.43, Kebagusan, Ps. Minggu, Jakarta Selatan 12520,
-        Indonesia. Email <a href="mailto:info@immersia.id">info@immersia.id</a>.
+        PT. Immer Asia Corporation, Jl. Sepat No.43, Kebagusan, Ps. Minggu,
+        Jakarta Selatan 12520, Indonesia. Email
+        <a href="mailto:info@immersia.id">info@immersia.id</a>.
+      </p>
+      <p>
+        See also our <a href="/terms-of-use.html">Terms of Use</a> and
+        <a href="/disclaimer.html">Disclaimer</a>.
       </p>
     </div>
   </article>

@@ -434,7 +434,9 @@ describe("redirects", () => {
 describe.each(allPages.filter((p) => p !== "404.html"))(
   "%s heading order",
   (file) => {
-    const levels = [...read(file).matchAll(/<h([1-6])[\s>]/g)].map((m) => +m[1]);
+    const levels = [...read(file).matchAll(/<h([1-6])[\s>]/g)].map(
+      (m) => +m[1],
+    );
 
     it("has exactly one h1, and it comes first", () => {
       expect(levels.filter((l) => l === 1)).toHaveLength(1);
@@ -510,10 +512,61 @@ describe("robots.txt", () => {
 
 /* ---------------------------------------------------------------- payload */
 
+/**
+ * Hosts the page is allowed to contact. Google Tag Manager and the Google tag
+ * were added deliberately; everything else staying off this list is what keeps
+ * /privacy-policy.html true, since that page names Google as the only third
+ * party and enumerates exactly what it collects.
+ *
+ * Adding a host here without updating the privacy policy publishes a false
+ * statement about data handling. That is the whole reason this is an
+ * allowlist rather than a relaxed regex.
+ */
+const ALLOWED_SCRIPT_HOSTS = ["www.googletagmanager.com"];
+
 describe("javascript payload", () => {
-  it("loads no external script on any page", () => {
-    for (const file of allPages)
-      expect(read(file)).not.toMatch(/<script[^>]*\ssrc=/);
+  it("loads no external script beyond the allowlist", () => {
+    const unexpected = [];
+    for (const file of allPages) {
+      for (const [, src] of read(file).matchAll(
+        /<script[^>]*\ssrc="(https?:\/\/[^"]+)"/g,
+      )) {
+        const host = new URL(src).host;
+        if (!ALLOWED_SCRIPT_HOSTS.includes(host))
+          unexpected.push(`${file} -> ${src}`);
+      }
+    }
+    expect(unexpected).toEqual([]);
+  });
+
+  it("loads the Google tag and Tag Manager on every page", () => {
+    // Analytics that covers only some pages produces numbers nobody can read.
+    for (const file of allPages) {
+      const html = read(file);
+      expect(html).toContain("GTM-TM9VB4ZQ");
+      expect(html).toContain("G-0RFC45PYLN");
+    }
+  });
+
+  it("frames nothing except Tag Manager's noscript fallback", () => {
+    const frames = [];
+    for (const file of allPages) {
+      for (const [tag] of read(file).matchAll(/<iframe\b[^>]*>/g)) {
+        if (!tag.includes("googletagmanager.com/ns.html"))
+          frames.push(`${file}: ${tag}`);
+      }
+    }
+    expect(frames).toEqual([]);
+  });
+
+  it("keeps the noscript frame out of the accessibility tree", () => {
+    // It sits above the skip link because Google specifies immediately after
+    // <body>, so it has to be unreachable by keyboard and invisible to screen
+    // readers or it becomes the first thing they meet.
+    const frame = read("index.html").match(/<iframe\b[^>]*>/)[0];
+    expect(frame).toContain('aria-hidden="true"');
+    expect(frame).toContain('tabindex="-1"');
+    expect(frame).toContain("visibility:hidden");
   });
 
   it("keeps inline script small on every page", () => {
@@ -523,7 +576,7 @@ describe("javascript payload", () => {
           /<script(?![^>]*type="application\/ld\+json")[^>]*>([\s\S]*?)<\/script>/g,
         ),
       ].reduce((n, m) => n + m[1].length, 0);
-      expect(inline).toBeLessThan(8_000);
+      expect(inline).toBeLessThan(10_000);
     }
   });
 });

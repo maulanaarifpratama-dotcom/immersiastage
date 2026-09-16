@@ -72,6 +72,57 @@ const fullTitle =
 <!doctype html>
 <html lang={lang}>
   <head>
+    {/*
+      Google Tag Manager — GTM-TM9VB4ZQ. Google asks for this as high in the
+      head as possible, so it goes first.
+
+      Worth knowing: what GTM loads is decided in Google's console, not here.
+      Adding a tag there changes what every page of this site fetches and
+      stores without any commit, any review, or any CI run. The privacy policy
+      says so rather than listing third parties it cannot keep current.
+    */}
+    <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-TM9VB4ZQ");
+    </script>
+
+    {/*
+      Google tag (gtag.js) — G-0RFC45PYLN.
+      Google asks for this immediately after <head>, so it sits above even the
+      charset meta.
+
+      This runs alongside GTM on purpose, because both were requested. If a
+      GA4 configuration tag for G-0RFC45PYLN is ever also added inside GTM,
+      every pageview will be counted twice.
+
+      This is the first third-party script the site has ever loaded, and the
+      first thing to write to a visitor's device. /privacy-policy.html was
+      written when neither was true and says so in as many words, so it changes
+      in the same commit — a policy that describes a site that no longer exists
+      is worse than no policy. docs/legal-architecture-notes.md predicted this
+      exact dependency; it is why that file exists.
+    */}
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-0RFC45PYLN"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-0RFC45PYLN");
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -114,6 +165,27 @@ const fullTitle =
   </head>
 
   <body>
+    {/*
+      Google Tag Manager noscript fallback. Hidden, 0x0, and inert without
+      JavaScript disabled -- but it is still an iframe to a third party, so the
+      privacy policy names it rather than claiming the site embeds nothing.
+
+      It sits above the skip link because Google specifies immediately after
+      <body>; aria-hidden and tabindex keep it out of the accessibility tree
+      and the tab order, so the skip link is still the first thing a keyboard
+      or screen reader user reaches.
+    */}
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-TM9VB4ZQ"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+        title="Google Tag Manager"
+        aria-hidden="true"
+        tabindex="-1"></iframe>
+    </noscript>
+
     <a class="skiplink" href="#main">Skip to content</a>
 
     {/*
