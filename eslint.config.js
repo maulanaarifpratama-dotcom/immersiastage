@@ -11,6 +11,12 @@ export default [
     },
     languageOptions: {
       globals: {
+        // Hand-maintained rather than pulled from the `globals` package, so
+        // anything standard but unlisted reads as an undefined variable. That
+        // is what `URL` did: the artifact suite used it, CI failed on
+        // no-undef, and the local check had been reporting success from an
+        // `echo` rather than from eslint's exit code.
+        URL: "readonly",
         window: "readonly",
         document: "readonly",
         location: "readonly",
